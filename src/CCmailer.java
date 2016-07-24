@@ -25,10 +25,6 @@ public class CCmailer {
     private static HashMap<String, String> infoMap =
             new HashMap<String, String>();
 
-    private static String host;
-    private static String username;
-    private static String password;
-    private static InternetAddress from;
     private static ArrayList<InternetAddress> to =
             new ArrayList<InternetAddress>();
     private static ArrayList<InternetAddress> cc =
@@ -38,26 +34,20 @@ public class CCmailer {
     private static ArrayList<InternetAddress> replyTo =
             new ArrayList<InternetAddress>();
 
-    private static String subject;
-    private static String body;
-
     private static BufferedReader bufferedInput;
 
     private static void sendEmail() {
         Properties properties = System.getProperties();
 
         properties.put("mail.smtp.starttls.enable", "true");
-        properties.put("mail.smtp.host", host);
-        properties.put("mail.smtp.user", username);
-        properties.put("mail.smtp.password", to);
-        properties.put("mail.smtp.auth", "true");
 
         Session session = Session.getInstance(properties);
         MimeMessage message = new MimeMessage(session);
         InternetAddress internetAddressArray[] = {};
 
         try {
-            message.setFrom(from);
+            message.setFrom(new InternetAddress(infoMap.get("from"),
+                    infoMap.get("from-name")));
             message.setReplyTo(replyTo.toArray(internetAddressArray));
             message.setRecipients(Message.RecipientType.TO,
                     to.toArray(internetAddressArray));
@@ -68,10 +58,10 @@ public class CCmailer {
              * bcc.toArray(internetAddressArray));
              */
 
-            message.setSubject(subject);
-            message.setContent(body, "text/html");
+            message.setSubject(infoMap.get("subject"));
+            message.setContent("<h1>Hello world</h1><a href=\"http://nuscomputing.com\">link</a>", "text/html");
             Transport transport = session.getTransport("smtp");
-            transport.connect(host, username, password);
+            transport.connect(infoMap.get("host"), infoMap.get("username"), infoMap.get("password"));
             transport.sendMessage(message, message.getAllRecipients());
             transport.close();
         } catch (Exception exception) {
@@ -94,21 +84,13 @@ public class CCmailer {
             }
             bufferedInput.close();
 
-            host = infoMap.get("host");
-            username = infoMap.get("username");
-            password = infoMap.get("password");
             to.add(new InternetAddress(infoMap.get("to"), infoMap
                     .get("to-name")));
             // cc.add(new InternetAddress(infoMap.get("cc")));
             // bcc.add(new InternetAddress(infoMap.get("bcc")));
             replyTo.add(new InternetAddress(infoMap.get("reply-to"), infoMap
                     .get("reply-to-name")));
-            from =
-                    new InternetAddress(infoMap.get("from"),
-                            infoMap.get("from-name"));
-            subject = infoMap.get("subject");
-            body = "<h1>Hello world</h1><a href=\"nuscomputing.com\">link</a>";
-
+            
             sendEmail();
         } catch (Exception exception) {
             exception.printStackTrace();
