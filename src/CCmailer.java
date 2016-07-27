@@ -1,8 +1,22 @@
-import java.io.*;
-import java.util.*;
+import java.io.BufferedReader;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Properties;
 
-import javax.mail.*;
-import javax.mail.internet.*;
+import javax.activation.DataHandler;
+import javax.activation.DataSource;
+import javax.activation.FileDataSource;
+import javax.mail.BodyPart;
+import javax.mail.Message;
+import javax.mail.Session;
+import javax.mail.Transport;
+import javax.mail.internet.InternetAddress;
+import javax.mail.internet.MimeBodyPart;
+import javax.mail.internet.MimeMessage;
+import javax.mail.internet.MimeMultipart;
 
 /**
  * <p>
@@ -10,9 +24,13 @@ import javax.mail.internet.*;
  * template in used for Computing Club's e-mail blast
  * </p>
  * <p>
- * Reference to
+ * <b>Main References:</b><br>
  * http://stackoverflow.com/questions/46663/how-can-i-send-an-email-
- * by-java-application-using-gmail-yahoo-or-hotmail
+ * by-java-application-using-gmail-yahoo-or-hotmail<br>
+ * http://www.tutorialspoint.com
+ * /javamail_api/javamail_api_send_inlineimage_in_email.htm<br>
+ * http://www.codejava.net/java-ee/javamail/embedding-images-into-e-mail-with-
+ * javamail
  * </p>
  * 
  * @author Benedict
@@ -46,8 +64,8 @@ public class CCmailer {
         InternetAddress internetAddressArray[] = {};
 
         try {
-            message.setFrom(new InternetAddress(infoMap.get("from"),
-                    infoMap.get("from-name")));
+            message.setFrom(new InternetAddress(infoMap.get("from"), infoMap
+                    .get("from-name")));
             message.setReplyTo(replyTo.toArray(internetAddressArray));
             message.setRecipients(Message.RecipientType.TO,
                     to.toArray(internetAddressArray));
@@ -59,9 +77,44 @@ public class CCmailer {
              */
 
             message.setSubject(infoMap.get("subject"));
-            message.setContent("<h1>Hello world</h1><a href=\"http://nuscomputing.com\">link</a>", "text/html");
+
+            // This mail has 2 part, the BODY and the embedded image
+            MimeMultipart multipart = new MimeMultipart("related");
+
+            // first part (the html)
+            BodyPart messageBodyPart = new MimeBodyPart();
+            String htmlText =
+                    "<H1>Hello</H1><img src=\"cid:image1\"><br><br><img src=\"cid:image2\">";
+            messageBodyPart.setContent(htmlText, "text/html");
+            // add it
+            multipart.addBodyPart(messageBodyPart);
+
+            // second part (the image)
+            messageBodyPart = new MimeBodyPart();
+            DataSource fds = new FileDataSource("img1.png");
+
+            messageBodyPart.setDataHandler(new DataHandler(fds));
+            messageBodyPart.setHeader("Content-ID", "<image1>");
+
+            // add image to the multipart
+            multipart.addBodyPart(messageBodyPart);
+
+            // second part (the image2)
+            messageBodyPart = new MimeBodyPart();
+            fds = new FileDataSource("img2.png");
+
+            messageBodyPart.setDataHandler(new DataHandler(fds));
+            messageBodyPart.setHeader("Content-ID", "<image2>");
+
+            // add image2 to the multipart
+            multipart.addBodyPart(messageBodyPart);
+
+            // put everything together
+            message.setContent(multipart);
+
             Transport transport = session.getTransport("smtp");
-            transport.connect(infoMap.get("host"), infoMap.get("username"), infoMap.get("password"));
+            transport.connect(infoMap.get("host"), infoMap.get("username"),
+                    infoMap.get("password"));
             transport.sendMessage(message, message.getAllRecipients());
             transport.close();
         } catch (Exception exception) {
@@ -90,7 +143,7 @@ public class CCmailer {
             // bcc.add(new InternetAddress(infoMap.get("bcc")));
             replyTo.add(new InternetAddress(infoMap.get("reply-to"), infoMap
                     .get("reply-to-name")));
-            
+
             sendEmail();
         } catch (Exception exception) {
             exception.printStackTrace();
