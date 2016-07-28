@@ -69,7 +69,6 @@ public class CCmailer {
 
         HtmlGenerator htmlGenerator = new HtmlGenerator();
         String htmlText = htmlGenerator.generateHtml(path);
-        
 
         messageBodyPart.setContent(htmlText, "text/html");
         // add it
@@ -85,13 +84,16 @@ public class CCmailer {
                 DataSource fds = new FileDataSource(path + entryName);
 
                 messageBodyPart.setDataHandler(new DataHandler(fds));
-                System.out.println(entryName.substring(0, entryName.length() - 4) + "\n");
-                messageBodyPart.setHeader("Content-ID", "<" + entryName.substring(0, entryName.length() - 4) + ">");
+                System.out.println(entryName.substring(0,
+                        entryName.length() - 4) + "\n");
+                messageBodyPart.setHeader("Content-ID",
+                        "<" + entryName.substring(0, entryName.length() - 4)
+                                + ">");
 
                 // add image to the multipart
                 multipart.addBodyPart(messageBodyPart);
             }
-        } 
+        }
 
         // put everything together
         return multipart;
@@ -122,7 +124,7 @@ public class CCmailer {
             message.setSubject(infoMap.get("subject"));
 
             message.setContent(generateHtml("sample/"));
-            //message.setText("HI");
+            // message.setText("HI");
             System.out.println("passed");
             Transport transport = session.getTransport("smtp");
             transport.connect(infoMap.get("host"), infoMap.get("username"),
