@@ -2,6 +2,10 @@ import java.io.BufferedReader;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.nio.file.DirectoryStream;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Properties;
@@ -11,6 +15,7 @@ import javax.activation.DataSource;
 import javax.activation.FileDataSource;
 import javax.mail.BodyPart;
 import javax.mail.Message;
+import javax.mail.MessagingException;
 import javax.mail.Session;
 import javax.mail.Transport;
 import javax.mail.internet.InternetAddress;
@@ -54,6 +59,44 @@ public class CCmailer {
 
     private static BufferedReader bufferedInput;
 
+    private static MimeMultipart generateHtml(String path)
+            throws MessagingException, IOException {
+        // This mail has 2 part, the BODY and the embedded image
+        MimeMultipart multipart = new MimeMultipart("related");
+
+        // first part (the html)
+        BodyPart messageBodyPart = new MimeBodyPart();
+
+        HtmlGenerator htmlGenerator = new HtmlGenerator();
+        String htmlText = htmlGenerator.generateHtml(path);
+        
+
+        messageBodyPart.setContent(htmlText, "text/html");
+        // add it
+        multipart.addBodyPart(messageBodyPart);
+
+        try (DirectoryStream<Path> stream =
+                Files.newDirectoryStream(Paths.get(path), "*.png")) {
+            for (Path entry : stream) {
+                String entryName = entry.getFileName().toString();
+                System.out.println(entryName);
+                // second part (the image)
+                messageBodyPart = new MimeBodyPart();
+                DataSource fds = new FileDataSource(path + entryName);
+
+                messageBodyPart.setDataHandler(new DataHandler(fds));
+                System.out.println(entryName.substring(0, entryName.length() - 4) + "\n");
+                messageBodyPart.setHeader("Content-ID", "<" + entryName.substring(0, entryName.length() - 4) + ">");
+
+                // add image to the multipart
+                multipart.addBodyPart(messageBodyPart);
+            }
+        } 
+
+        // put everything together
+        return multipart;
+    }
+
     private static void sendEmail() {
         Properties properties = System.getProperties();
 
@@ -78,43 +121,13 @@ public class CCmailer {
 
             message.setSubject(infoMap.get("subject"));
 
-            // This mail has 2 part, the BODY and the embedded image
-            MimeMultipart multipart = new MimeMultipart("related");
-
-            // first part (the html)
-            BodyPart messageBodyPart = new MimeBodyPart();
-            String htmlText =
-                    "<H1>Hello</H1><img src=\"cid:image1\"><br><br><img src=\"cid:image2\">";
-            messageBodyPart.setContent(htmlText, "text/html");
-            // add it
-            multipart.addBodyPart(messageBodyPart);
-
-            // second part (the image)
-            messageBodyPart = new MimeBodyPart();
-            DataSource fds = new FileDataSource("img1.png");
-
-            messageBodyPart.setDataHandler(new DataHandler(fds));
-            messageBodyPart.setHeader("Content-ID", "<image1>");
-
-            // add image to the multipart
-            multipart.addBodyPart(messageBodyPart);
-
-            // second part (the image2)
-            messageBodyPart = new MimeBodyPart();
-            fds = new FileDataSource("img2.png");
-
-            messageBodyPart.setDataHandler(new DataHandler(fds));
-            messageBodyPart.setHeader("Content-ID", "<image2>");
-
-            // add image2 to the multipart
-            multipart.addBodyPart(messageBodyPart);
-
-            // put everything together
-            message.setContent(multipart);
-
+            message.setContent(generateHtml("sample/"));
+            //message.setText("HI");
+            System.out.println("passed");
             Transport transport = session.getTransport("smtp");
             transport.connect(infoMap.get("host"), infoMap.get("username"),
                     infoMap.get("password"));
+            System.out.println("cleared");
             transport.sendMessage(message, message.getAllRecipients());
             transport.close();
         } catch (Exception exception) {
