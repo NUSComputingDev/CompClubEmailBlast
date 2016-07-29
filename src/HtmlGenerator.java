@@ -26,13 +26,13 @@ public class HtmlGenerator {
     private static String titles;
     
     private HtmlGenerator() {
+        titles = "[Comp Club] ";
     }
 
     public static HtmlGenerator getInstance() {
         if (theHtmlGenerator == null) {
             theHtmlGenerator = new HtmlGenerator();
         }
-        titles = "[Comp Club] ";
         return theHtmlGenerator;
     }
 
@@ -61,8 +61,8 @@ public class HtmlGenerator {
                 html +=
                         HtmlConstants.CONTENT_TITLE.replace("title",
                                 line.substring(7, line.length()));
-                if (index != 2) {
-                    titles += " - ";
+                if (index != '2') {
+                    titles += " | ";
                 }
                 titles += line.substring(7, line.length());
                 if ((new File(path + "img" + (index - '1') + ".png")).exists()) {
