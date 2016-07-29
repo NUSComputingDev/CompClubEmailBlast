@@ -67,7 +67,7 @@ public class CCmailer {
         // first part (the html)
         BodyPart messageBodyPart = new MimeBodyPart();
 
-        HtmlGenerator htmlGenerator = new HtmlGenerator();
+        HtmlGenerator htmlGenerator = HtmlGenerator.getInstance();
         String htmlText = htmlGenerator.generateHtml(path);
 
         messageBodyPart.setContent(htmlText, "text/html");
@@ -124,6 +124,9 @@ public class CCmailer {
             message.setSubject(infoMap.get("subject"));
 
             message.setContent(generateHtml("sample/"));
+
+            HtmlGenerator htmlGenerator = HtmlGenerator.getInstance();
+
             // message.setText("HI");
             System.out.println("passed");
             Transport transport = session.getTransport("smtp");

@@ -23,11 +23,21 @@ public class HtmlGenerator {
     private static BufferedWriter bufferedOutput;
     private static BufferedReader bufferedInput;
 
-    public HtmlGenerator HtmlGenerator() {
+    
+    private HtmlGenerator() {
+    }
+
+    public static HtmlGenerator getInstance() {
         if (theHtmlGenerator == null) {
             theHtmlGenerator = new HtmlGenerator();
         }
         return theHtmlGenerator;
+    }
+
+    private String getDate() {
+        DateFormat dateFormat = new SimpleDateFormat("dd MMMM YYYY");
+        Date date = new Date();
+        return dateFormat.format(date);
     }
 
     public String generateContent(String path) throws IOException {
@@ -104,10 +114,6 @@ public class HtmlGenerator {
         return html;
     }
 
-    private String getDate() {
-        DateFormat dateFormat = new SimpleDateFormat("dd MMMM YYYY");
-        Date date = new Date();
-        return dateFormat.format(date);
     }
 
     public static void main(String[] args) {
