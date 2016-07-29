@@ -121,11 +121,10 @@ public class CCmailer {
              * bcc.toArray(internetAddressArray));
              */
 
-            message.setSubject(infoMap.get("subject"));
-
             message.setContent(generateHtml("sample/"));
 
             HtmlGenerator htmlGenerator = HtmlGenerator.getInstance();
+            message.setSubject(htmlGenerator.getTitles());
 
             // message.setText("HI");
             System.out.println("passed");

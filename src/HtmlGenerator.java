@@ -23,6 +23,7 @@ public class HtmlGenerator {
     private static BufferedWriter bufferedOutput;
     private static BufferedReader bufferedInput;
 
+    private static String titles;
     
     private HtmlGenerator() {
     }
@@ -31,6 +32,7 @@ public class HtmlGenerator {
         if (theHtmlGenerator == null) {
             theHtmlGenerator = new HtmlGenerator();
         }
+        titles = "[Comp Club] ";
         return theHtmlGenerator;
     }
 
@@ -59,6 +61,10 @@ public class HtmlGenerator {
                 html +=
                         HtmlConstants.CONTENT_TITLE.replace("title",
                                 line.substring(7, line.length()));
+                if (index != 2) {
+                    titles += " - ";
+                }
+                titles += line.substring(7, line.length());
                 if ((new File(path + "img" + (index - '1') + ".png")).exists()) {
                     html +=
                             HtmlConstants.CONTENT_IMG.replace("image", "img"
@@ -114,6 +120,8 @@ public class HtmlGenerator {
         return html;
     }
 
+    public String getTitles() {
+        return titles;
     }
 
     public static void main(String[] args) {
