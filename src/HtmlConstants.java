@@ -31,6 +31,29 @@ public final class HtmlConstants {
             + "                </tr>\n"
             + "              </tbody>\n"
             + "            </table>\n";
+    public static final String CONTENT_START = 
+              "            <table style=\"border:none;width:600px;table-layout"
+            + ":fixed;color:rgb(85,85,85);font-family:Optima,'Trebuchet MS',"
+            + "sans-serif\" border=\"0\" width=\"600\">\n"
+            + "              <tbody>\n"
+            + "                <tr>\n"
+            + "                  <td style=\"padding:10px 20px;vertical-align:"
+            + "top;width:auto;text-align:justify;font-size:12pt\">\n";
+    public static final String CONTENT_TITLE = 
+              "                    <p style=\"text-align:center;color:rgb"
+            + "(17,17,17);font-size:24pt;margin:10px 0px\">title</p>\n";
+    public static final String CONTENT_IMG = 
+              "                    <div style=\"width:556px;min-height:10px;"
+            + "text-align:center;vertical-align:middle;background-repeat:"
+            + "initial initial\"><img src=\"cid:image\"></div>\n";
+    public static final String CONTENT_LINK = 
+              "                    <div style=\"text-align:right;font-size:20px"
+              + "\"><a href=\"link\">lnk-txt &rarr;</a></div>\n";
+    public static final String CONTENT_END = 
+              "                  </td>\n"
+            + "                </tr>\n"
+            + "              </tbody>\n"
+            + "            </table>\n";
     public static final String ENDING =
               "            <table style=\"border:none;width:600px;color:rgb"
             + "(85,85,85);font-family:Optima,'Trebuchet MS',sans-serif\" "
@@ -74,27 +97,4 @@ public final class HtmlConstants {
             + "    <br>\n"
             + "  </body>\n"
             + "</html>\n";
-    public static final String CONTENT_START = 
-              "            <table style=\"border:none;width:600px;table-layout"
-            + ":fixed;color:rgb(85,85,85);font-family:Optima,'Trebuchet MS',"
-            + "sans-serif\" border=\"0\" width=\"600\">\n"
-            + "              <tbody>\n"
-            + "                <tr>\n"
-            + "                  <td style=\"padding:10px 20px;vertical-align:"
-            + "top;width:auto;text-align:justify;font-size:12pt\">\n";
-    public static final String CONTENT_TITLE = 
-              "                    <p style=\"text-align:center;color:rgb"
-            + "(17,17,17);font-size:24pt;margin:10px 0px\">title</p>\n";
-    public static final String CONTENT_IMG = 
-              "                    <div style=\"width:556px;min-height:10px;"
-            + "text-align:center;vertical-align:middle;background-repeat:"
-            + "initial initial\"><img src=\"cid:image\"></div>\n";
-    public static final String CONTENT_LINK = 
-              "                    <div style=\"text-align:right;font-size:20px"
-              + "\"><a href=\"link\">lnk-txt &rarr;</a></div>\n";
-    public static final String CONTENT_END = 
-              "                  </td>\n"
-            + "                </tr>\n"
-            + "              </tbody>\n"
-            + "            </table>\n";
 }
