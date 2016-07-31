@@ -42,7 +42,15 @@ import javax.mail.internet.MimeMultipart;
  */
 public class CCmailer {
 
-    private static final String FILE_PRIVATE_INFO = "privateinfo.txt";
+    private static final String SERVER_CONNECTED = "Mail server connected";
+
+    private static final String SERVER_CONNECTING =
+            "Attempting to connect to the mail server";
+
+    private String privateInfoFile;
+    private String folderPath;
+    private String outputPath;
+    private String outputName;
 
     private HashMap<String, String> infoMap = new HashMap<String, String>();
 
@@ -54,10 +62,16 @@ public class CCmailer {
 
     private BufferedReader bufferedInput;
 
+    private HtmlGenerator htmlGenerator;
+
+    public CCmailer() {
+        htmlGenerator = HtmlGenerator.getInstance();
+    }
+
     private void readPrivateInfo() throws IOException {
         bufferedInput =
                 new BufferedReader(new InputStreamReader(new FileInputStream(
-                        FILE_PRIVATE_INFO)));
+                        privateInfoFile)));
         String line;
         int colonIndex;
         while ((line = bufferedInput.readLine()) != null) {
@@ -73,102 +87,108 @@ public class CCmailer {
         if (infoMap.containsKey("to")) {
             to.add(new InternetAddress(infoMap.get("to"), infoMap
                     .get("to-name")));
-        }/*
+        }
         if (infoMap.containsKey("cc")) {
             cc.add(new InternetAddress(infoMap.get("cc")));
         }
         if (infoMap.containsKey("bcc")) {
             bcc.add(new InternetAddress(infoMap.get("bcc")));
-        }*/
+        }
         if (infoMap.containsKey("reply-to")) {
             replyTo.add(new InternetAddress(infoMap.get("reply-to"), infoMap
                     .get("reply-to-name")));
         }
     }
 
-    private MimeMultipart generateHtml(String path) throws MessagingException,
-            IOException {
-        // This mail has 2 part, the BODY and the embedded image
-        MimeMultipart multipart = new MimeMultipart("related");
+    private void setEmailAddresses(MimeMessage message)
+            throws MessagingException, UnsupportedEncodingException {
 
-        // first part (the html)
-        BodyPart messageBodyPart = new MimeBodyPart();
+        InternetAddress internetAddressArray[] = {};
+        if (infoMap.containsKey("from")) {
+            message.setFrom(new InternetAddress(infoMap.get("from"), infoMap
+                    .get("from-name")));
+        }
+        if (!to.isEmpty()) {
+            message.setRecipients(Message.RecipientType.TO,
+                    to.toArray(internetAddressArray));
+        }
+        if (!cc.isEmpty()) {
+            message.setRecipients(Message.RecipientType.CC,
+                    cc.toArray(internetAddressArray));
+        }
+        if (!bcc.isEmpty()) {
+            message.setRecipients(Message.RecipientType.BCC,
+                    bcc.toArray(internetAddressArray));
+        }
+        if (!replyTo.isEmpty()) {
+            message.setReplyTo(replyTo.toArray(internetAddressArray));
+        }
+    }
 
-        HtmlGenerator htmlGenerator = HtmlGenerator.getInstance();
-        String htmlText =
-                htmlGenerator.generateHtml(path, "outTest", "test.html");
-
-        messageBodyPart.setContent(htmlText, "text/html");
-        // add it
-        multipart.addBodyPart(messageBodyPart);
-
+    private void processImages(MimeMultipart multipart)
+            throws MessagingException, IOException {
+        BodyPart messageBodyPart;
         try (DirectoryStream<Path> stream =
-                Files.newDirectoryStream(Paths.get(path), "*.png")) {
+                Files.newDirectoryStream(Paths.get(folderPath), "*.png")) {
             for (Path entry : stream) {
                 String entryName = entry.getFileName().toString();
-                System.out.println(entryName);
-                // second part (the image)
+
                 messageBodyPart = new MimeBodyPart();
-                DataSource fds = new FileDataSource(path + entryName);
+                DataSource fds = new FileDataSource(folderPath + entryName);
 
                 messageBodyPart.setDataHandler(new DataHandler(fds));
-                System.out.println(entryName.substring(0,
-                        entryName.length() - 4) + "\n");
                 messageBodyPart.setHeader("Content-ID",
                         "<" + entryName.substring(0, entryName.length() - 4)
                                 + ">");
 
-                // add image to the multipart
                 multipart.addBodyPart(messageBodyPart);
             }
         }
+    }
 
-        // put everything together
+    private MimeMultipart generateHtml() throws MessagingException, IOException {
+        MimeMultipart multipart = new MimeMultipart("related");
+        BodyPart messageBodyPart = new MimeBodyPart();
+
+        String htmlText =
+                htmlGenerator.generateHtml(folderPath, outputPath, outputName);
+
+        messageBodyPart.setContent(htmlText, "text/html");
+        multipart.addBodyPart(messageBodyPart);
+
+        processImages(multipart);
+
         return multipart;
     }
 
-    private void sendEmail() {
+    private void sendEmail() throws MessagingException, IOException {
         Properties properties = System.getProperties();
 
         properties.put("mail.smtp.starttls.enable", "true");
 
         Session session = Session.getInstance(properties);
         MimeMessage message = new MimeMessage(session);
-        InternetAddress internetAddressArray[] = {};
 
-        try {
-            message.setFrom(new InternetAddress(infoMap.get("from"), infoMap
-                    .get("from-name")));
-            message.setReplyTo(replyTo.toArray(internetAddressArray));
-            message.setRecipients(Message.RecipientType.TO,
-                    to.toArray(internetAddressArray));
-            /*
-             * message.setRecipients(Message.RecipientType.CC,
-             * cc.toArray(internetAddressArray));
-             * message.setRecipients(Message.RecipientType.BCC,
-             * bcc.toArray(internetAddressArray));
-             */
+        setEmailAddresses(message);
 
-            message.setContent(generateHtml("sample/"));
+        message.setContent(generateHtml());
+        message.setSubject(htmlGenerator.getTitles());
 
-            HtmlGenerator htmlGenerator = HtmlGenerator.getInstance();
-            message.setSubject(htmlGenerator.getTitles());
-
-            // message.setText("HI");
-            System.out.println("passed");
-            Transport transport = session.getTransport("smtp");
-            transport.connect(infoMap.get("host"), infoMap.get("username"),
-                    infoMap.get("password"));
-            System.out.println("cleared");
-            transport.sendMessage(message, message.getAllRecipients());
-            transport.close();
-        } catch (Exception exception) {
-            exception.printStackTrace();
-        }
+        System.out.println(SERVER_CONNECTING);
+        Transport transport = session.getTransport("smtp");
+        transport.connect(infoMap.get("host"), infoMap.get("username"),
+                infoMap.get("password"));
+        System.out.println(SERVER_CONNECTED);
+        transport.sendMessage(message, message.getAllRecipients());
+        transport.close();
     }
 
     public static void main(String[] args) throws IOException {
         CCmailer ccMailer = new CCmailer();
+        ccMailer.privateInfoFile = args[0];
+        ccMailer.folderPath = args[1];
+        ccMailer.outputPath = args[2];
+        ccMailer.outputName = args[3];
         try {
             ccMailer.readPrivateInfo();
             ccMailer.populateEmailAddresses();
