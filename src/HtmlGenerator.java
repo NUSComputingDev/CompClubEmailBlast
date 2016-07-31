@@ -148,6 +148,11 @@ public class HtmlGenerator {
      * 
      * @param folderPath
      *            The path to the folder where the contents are
+     * @param outputPath
+     *            The path to the folder to be created where the output file
+     *            will be written to
+     * @param outputName
+     *            The name of the output file
      * @return the html string representing the expected html file
      *
      * @throws IOException
@@ -176,6 +181,11 @@ public class HtmlGenerator {
         return html;
     }
 
+    /**
+     * Assumes that generateHtml ran successfully
+     * 
+     * @return String of titles from the items
+     */
     public String getTitles() {
         return titles;
     }
@@ -188,7 +198,6 @@ public class HtmlGenerator {
                             "out.html");
             System.out.println(generatedHTML);
         } catch (IOException e) {
-            // TODO Auto-generated catch block
             e.printStackTrace();
         }
 
