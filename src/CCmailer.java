@@ -2,6 +2,7 @@ import java.io.BufferedReader;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.io.UnsupportedEncodingException;
 import java.nio.file.DirectoryStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -18,6 +19,7 @@ import javax.mail.Message;
 import javax.mail.MessagingException;
 import javax.mail.Session;
 import javax.mail.Transport;
+import javax.mail.internet.AddressException;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeBodyPart;
 import javax.mail.internet.MimeMessage;
@@ -25,8 +27,8 @@ import javax.mail.internet.MimeMultipart;
 
 /**
  * <p>
- * class CCmailer reads in the required files and send an e-mail based on the
- * template in used for Computing Club's e-mail blast
+ * Reads in the required files and send an e-mail based on the template in used
+ * for Computing Club's e-mail blast
  * </p>
  * <p>
  * <b>Main References:</b><br>
@@ -37,30 +39,55 @@ import javax.mail.internet.MimeMultipart;
  * http://www.codejava.net/java-ee/javamail/embedding-images-into-e-mail-with-
  * javamail
  * </p>
- * 
- * @author Benedict
- *
  */
 public class CCmailer {
 
     private static final String FILE_PRIVATE_INFO = "privateinfo.txt";
 
-    private static HashMap<String, String> infoMap =
-            new HashMap<String, String>();
+    private HashMap<String, String> infoMap = new HashMap<String, String>();
 
-    private static ArrayList<InternetAddress> to =
-            new ArrayList<InternetAddress>();
-    private static ArrayList<InternetAddress> cc =
-            new ArrayList<InternetAddress>();
-    private static ArrayList<InternetAddress> bcc =
-            new ArrayList<InternetAddress>();
-    private static ArrayList<InternetAddress> replyTo =
+    private ArrayList<InternetAddress> to = new ArrayList<InternetAddress>();
+    private ArrayList<InternetAddress> cc = new ArrayList<InternetAddress>();
+    private ArrayList<InternetAddress> bcc = new ArrayList<InternetAddress>();
+    private ArrayList<InternetAddress> replyTo =
             new ArrayList<InternetAddress>();
 
-    private static BufferedReader bufferedInput;
+    private BufferedReader bufferedInput;
 
-    private static MimeMultipart generateHtml(String path)
-            throws MessagingException, IOException {
+    private void readPrivateInfo() throws IOException {
+        bufferedInput =
+                new BufferedReader(new InputStreamReader(new FileInputStream(
+                        FILE_PRIVATE_INFO)));
+        String line;
+        int colonIndex;
+        while ((line = bufferedInput.readLine()) != null) {
+            colonIndex = line.indexOf(": ");
+            infoMap.put(line.substring(0, colonIndex),
+                    line.substring(colonIndex + 2, line.length()));
+        }
+        bufferedInput.close();
+    }
+
+    private void populateEmailAddresses() throws UnsupportedEncodingException,
+            AddressException {
+        if (infoMap.containsKey("to")) {
+            to.add(new InternetAddress(infoMap.get("to"), infoMap
+                    .get("to-name")));
+        }/*
+        if (infoMap.containsKey("cc")) {
+            cc.add(new InternetAddress(infoMap.get("cc")));
+        }
+        if (infoMap.containsKey("bcc")) {
+            bcc.add(new InternetAddress(infoMap.get("bcc")));
+        }*/
+        if (infoMap.containsKey("reply-to")) {
+            replyTo.add(new InternetAddress(infoMap.get("reply-to"), infoMap
+                    .get("reply-to-name")));
+        }
+    }
+
+    private MimeMultipart generateHtml(String path) throws MessagingException,
+            IOException {
         // This mail has 2 part, the BODY and the embedded image
         MimeMultipart multipart = new MimeMultipart("related");
 
@@ -68,7 +95,8 @@ public class CCmailer {
         BodyPart messageBodyPart = new MimeBodyPart();
 
         HtmlGenerator htmlGenerator = HtmlGenerator.getInstance();
-        String htmlText = htmlGenerator.generateHtml(path);
+        String htmlText =
+                htmlGenerator.generateHtml(path, "outTest", "test.html");
 
         messageBodyPart.setContent(htmlText, "text/html");
         // add it
@@ -99,7 +127,7 @@ public class CCmailer {
         return multipart;
     }
 
-    private static void sendEmail() {
+    private void sendEmail() {
         Properties properties = System.getProperties();
 
         properties.put("mail.smtp.starttls.enable", "true");
@@ -140,28 +168,11 @@ public class CCmailer {
     }
 
     public static void main(String[] args) throws IOException {
-
+        CCmailer ccMailer = new CCmailer();
         try {
-            bufferedInput =
-                    new BufferedReader(new InputStreamReader(
-                            new FileInputStream(FILE_PRIVATE_INFO)));
-            String line;
-            int index;
-            while ((line = bufferedInput.readLine()) != null) {
-                index = line.indexOf(": ");
-                infoMap.put(line.substring(0, index),
-                        line.substring(index + 2, line.length()));
-            }
-            bufferedInput.close();
-
-            to.add(new InternetAddress(infoMap.get("to"), infoMap
-                    .get("to-name")));
-            // cc.add(new InternetAddress(infoMap.get("cc")));
-            // bcc.add(new InternetAddress(infoMap.get("bcc")));
-            replyTo.add(new InternetAddress(infoMap.get("reply-to"), infoMap
-                    .get("reply-to-name")));
-
-            sendEmail();
+            ccMailer.readPrivateInfo();
+            ccMailer.populateEmailAddresses();
+            ccMailer.sendEmail();
         } catch (Exception exception) {
             exception.printStackTrace();
         }
