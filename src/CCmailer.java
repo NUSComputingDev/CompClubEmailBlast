@@ -199,7 +199,7 @@ public class CCmailer {
         multipart.addBodyPart(messageBodyPart);
 
         processImages(multipart);
-        
+
         htmlGenerator.writeHtml(outputPath, outputName, htmlText);
 
         return multipart;
@@ -241,7 +241,20 @@ public class CCmailer {
         transport.close();
     }
 
-    public static void main(String[] args) throws IOException {
+    /**
+     * 
+     * @param args
+     *            <ol>
+     *            <li>the file containing all the private information</li>
+     *            <li>the folder containing all the email items</li>
+     *            <li>the folder to put the generate html file (does not need to
+     *            be existing)</li>
+     *            <li>the name of the html file to be generated</li>
+     *            </ol>
+     * 
+     * @throws IOException
+     */
+    public static void main(String[] args) {
         CCmailer ccMailer = new CCmailer(args[0], args[1], args[2], args[3]);
         try {
             ccMailer.readPrivateInfo();
