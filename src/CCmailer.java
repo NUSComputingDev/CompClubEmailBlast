@@ -64,11 +64,39 @@ public class CCmailer {
 
     private HtmlGenerator htmlGenerator;
 
-    public CCmailer() {
+    /**
+     * register the paths to the various files needed
+     * 
+     * @param privateInfoFile
+     *            the file containing all the private information
+     * 
+     * @param folderPath
+     *            the folder containing all the email items
+     * 
+     * @param outputPath
+     *            the folder to put the generate html file (does not need to be
+     *            existing)
+     * 
+     * @param outputName
+     *            the name of the html file to be generated
+     */
+    public CCmailer(String privateInfoFile, String folderPath,
+            String outputPath, String outputName) {
+        this.privateInfoFile = privateInfoFile;
+        this.folderPath = folderPath;
+        this.outputPath = outputPath;
+        this.outputName = outputName;
         htmlGenerator = HtmlGenerator.getInstance();
     }
 
-    private void readPrivateInfo() throws IOException {
+    /**
+     * open the privateInfoFile and read the inputs into a hashmap for
+     * subsequent use
+     * 
+     * @throws IOException
+     *             when the file cannot be reached
+     */
+    public void readPrivateInfo() throws IOException {
         bufferedInput =
                 new BufferedReader(new InputStreamReader(new FileInputStream(
                         privateInfoFile)));
@@ -82,7 +110,22 @@ public class CCmailer {
         bufferedInput.close();
     }
 
-    private void populateEmailAddresses() throws UnsupportedEncodingException,
+    /**
+     * Assumes successful call to readPrivateInfo()<br>
+     * Uses the private information given to build up the e-mail addresses
+     * involved in this e-mail<br>
+     * The addresses include:
+     * <ol>
+     * <li>Recipient's address</li>
+     * <li>CC</li>
+     * <li>BCC</li>
+     * <li>Reply-to</li>
+     * </ol>
+     * 
+     * @throws UnsupportedEncodingException
+     * @throws AddressException
+     */
+    public void populateEmailAddresses() throws UnsupportedEncodingException,
             AddressException {
         if (infoMap.containsKey("to")) {
             to.add(new InternetAddress(infoMap.get("to"), infoMap
@@ -102,7 +145,6 @@ public class CCmailer {
 
     private void setEmailAddresses(MimeMessage message)
             throws MessagingException, UnsupportedEncodingException {
-
         InternetAddress internetAddressArray[] = {};
         if (infoMap.containsKey("from")) {
             message.setFrom(new InternetAddress(infoMap.get("from"), infoMap
@@ -157,11 +199,27 @@ public class CCmailer {
         multipart.addBodyPart(messageBodyPart);
 
         processImages(multipart);
+        
+        htmlGenerator.writeHtml(outputPath, outputName, htmlText);
 
         return multipart;
     }
 
-    private void sendEmail() throws MessagingException, IOException {
+    /**
+     * Assumes successful call to readPrivateInfo() and populateEmailAddresses()<br>
+     * Send an e-mail to the addresses given in the following steps:
+     * <ol>
+     * <li>Set the e-mail addresses from the populated list</li>
+     * <li>Generate the html content through the class HtmlGenerator</li>
+     * <li>Set the subject for the e-mail</li>
+     * <li>Connect to the e-mail server</li>
+     * <li>Send the e-mail</li>
+     * </ol>
+     * 
+     * @throws MessagingException
+     * @throws IOException
+     */
+    public void sendEmail() throws MessagingException, IOException {
         Properties properties = System.getProperties();
 
         properties.put("mail.smtp.starttls.enable", "true");
@@ -184,11 +242,7 @@ public class CCmailer {
     }
 
     public static void main(String[] args) throws IOException {
-        CCmailer ccMailer = new CCmailer();
-        ccMailer.privateInfoFile = args[0];
-        ccMailer.folderPath = args[1];
-        ccMailer.outputPath = args[2];
-        ccMailer.outputName = args[3];
+        CCmailer ccMailer = new CCmailer(args[0], args[1], args[2], args[3]);
         try {
             ccMailer.readPrivateInfo();
             ccMailer.populateEmailAddresses();
