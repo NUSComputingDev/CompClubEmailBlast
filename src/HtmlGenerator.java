@@ -200,7 +200,6 @@ public class HtmlGenerator {
         } catch (IOException e) {
             e.printStackTrace();
         }
-
     }
 
 }
