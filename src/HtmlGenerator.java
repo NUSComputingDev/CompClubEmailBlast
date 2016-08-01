@@ -162,23 +162,55 @@ public class HtmlGenerator {
             String outputName) throws IOException {
         String html = "";
 
-        File files = new File(outputPath);
-        files.mkdirs();
-
-        bufferedOutput =
-                new BufferedWriter(new OutputStreamWriter(new FileOutputStream(
-                        outputPath + outputName)));
-
         html += HtmlConstants.OPENING;
         html += getDate();
         html += HtmlConstants.AFTER_DATE;
         html += generateContent(folderPath);
         html += HtmlConstants.ENDING;
 
+        return html;
+    }
+
+    /**
+     * Replaces all inline images code to the relative variables and write the
+     * html file
+     * 
+     * @param outputPath
+     *            The path to the folder to be created where the output file
+     *            will be written to
+     * @param outputName
+     *            The name of the output file
+     * @param html
+     *            The generated html file
+     * @throws FileNotFoundException
+     * @throws IOException
+     */
+    public void writeHtml(String outputPath, String outputName, String html)
+            throws IOException {
+        String imagePointer = "img src=\"cid:";
+        String imagePrefix = "img src=\"";
+
+        while (html.contains(imagePointer)) {
+            int imageStartIndex =
+                    html.indexOf(imagePointer) + imagePrefix.length();
+            int extensionIndex =
+                    html.substring(imageStartIndex, html.length()).indexOf(
+                            "\">");
+            html =
+                    html.substring(0, imageStartIndex + extensionIndex)
+                            + ".png"
+                            + html.substring(imageStartIndex + extensionIndex,
+                                    html.length());
+            html = html.replaceFirst(imagePointer, imagePrefix);
+        }
+
+        File files = new File(outputPath);
+        files.mkdirs();
+        bufferedOutput =
+                new BufferedWriter(new OutputStreamWriter(new FileOutputStream(
+                        outputPath + outputName)));
         bufferedOutput.write(html);
         bufferedOutput.close();
-
-        return html;
     }
 
     /**
