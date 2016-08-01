@@ -1,0 +1,11 @@
+host: email_host_server
+username: sender_email_username
+password: sender_email_password
+to: recipient_email_address
+to-name: recipient_name
+cc: cc_email_address_remove_entire_line_if_not_needed
+bcc: bcc_email_address_remove_entire_line_if_not_needed
+reply-to: reply_to_email_address_remove_entire_line_if_not_needed
+reply-to-name: reply_to_name_address_remove_entire_line_if_not_needed
+from: sender_email_address
+from-name: sender_name
