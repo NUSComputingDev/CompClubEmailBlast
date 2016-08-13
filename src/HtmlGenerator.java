@@ -57,13 +57,16 @@ public class HtmlGenerator {
         return html;
     }
 
-    private String setTitle(String html, String title, int index) {
+    private String setTitle(String html, String title, int index, 
+            boolean isSponsor) {
         html += HtmlConstants.CONTENT_TITLE.replace("title", title);
-        if (index != 1) {
-            titles += " | ";
+        if (!isSponsor) {
+            if (index != 1) {
+                titles += " | ";
+            }
+            titles += title;
         }
-        titles += title;
-
+        
         return html;
     }
 
@@ -118,6 +121,7 @@ public class HtmlGenerator {
                         folderPath + MAIN_TXT)));
         String line;
         char index = '1';
+        boolean isSponsor = false;
         while ((line = bufferedInput.readLine()) != null) {
             if (line.charAt(0) == index) {
                 html = setContentEndAndStart(html, index);
@@ -125,9 +129,12 @@ public class HtmlGenerator {
             } else if (line.contains("title: ")) {
                 html =
                         setTitle(html, line.substring(7, line.length()),
-                                index - '1');
+                                index - '1', isSponsor);
                 html = setImage(folderPath, html, index - '1');
                 html = setText(folderPath, html, index - '1');
+            } else if (line.equals("Sponsor")) {
+                html += HtmlConstants.SPONSOR_TITLE;
+                isSponsor = true;
             } else {
                 html = setLink(html, line.substring(6, line.length()));
             }

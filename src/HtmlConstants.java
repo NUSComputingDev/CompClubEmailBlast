@@ -54,6 +54,18 @@ public final class HtmlConstants {
             + "                </tr>\n"
             + "              </tbody>\n"
             + "            </table>\n";
+    public static final String SPONSOR_TITLE =
+              "                <table style=\"border:none;width:600px;color:rgb"
+            + "(85,85,85);font-family:Optima,'Trebuchet MS',sans-serif\" "
+            + "border=\"0\" width=\"600\">\n"
+            + "                  <tbody>\n"
+            + "                    <tr>\n"
+            + "                      <td style=\"padding:10px 20px;vertical"
+            + "-align:middle;width:auto;text-align:justify;font-size:26pt;"
+            + "margin:0px\">&nbsp;Other Events and Promotions</td>\n"
+            + "                    </tr>\n"
+            + "                  </tbody>\n"
+            + "                </table>\n";
     public static final String ENDING =
               "            <table style=\"border:none;width:600px;color:rgb"
             + "(85,85,85);font-family:Optima,'Trebuchet MS',sans-serif\" "
