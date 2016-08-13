@@ -133,7 +133,9 @@ public class HtmlGenerator {
                 html = setImage(folderPath, html, index - '1');
                 html = setText(folderPath, html, index - '1');
             } else if (line.equals("Sponsor")) {
+                html += HtmlConstants.CONTENT_END;
                 html += HtmlConstants.SPONSOR_TITLE;
+                html += HtmlConstants.CONTENT_START;
                 isSponsor = true;
             } else {
                 html = setLink(html, line.substring(6, line.length()));
