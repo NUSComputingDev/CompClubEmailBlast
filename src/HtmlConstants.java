@@ -23,7 +23,7 @@ public final class HtmlConstants {
             + "                <tr>\n"
             + "                  <td style=\"padding:10px 20px;vertical-align:"
             + "middle;width:auto;text-align:justify;font-size:26pt;margin:0px\""
-            + "><img src=\"compclub-logo.png\">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"
+            + "><img src=\"cid:compclub-logo\">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"
             + "&nbsp;&nbsp;Computing Club Events</td>\n"
             + "                </tr>\n"
             + "              </tbody>\n"
