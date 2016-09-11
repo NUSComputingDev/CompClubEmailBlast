@@ -35,11 +35,11 @@ These dependencies are included in the programme
 ## Argument inputs for CCmailer ##
 
 `CCmailer` takes in 5 arguments:
-    * name of the file containing private info (either relative path or static path)
-    * input folder containing the inputs (ending with "/")
-    * output folder to write the output to (ending with "/")
-    * name of the output html file (This html file will be placed in the output folder)
-    * type of e-mail (either emailBlast or acadAdvisory)
+  * name of the file containing private info (either relative path or static path)
+  * input folder containing the inputs (ending with "/")
+  * output folder to write the output to (ending with "/")
+  * name of the output html file (This html file will be placed in the output folder)
+  * type of e-mail (either emailBlast or acadAdvisory)
 
 ## Sample Instructions ##
 
