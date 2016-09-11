@@ -80,14 +80,15 @@ public class HtmlGenerator {
 
     private String setImage(String folderPath, String outputPath, int index) throws IOException {
         if ((new File(folderPath + "img" + index + ".png")).exists()) {
-            Path source = Paths.get(folderPath + "img" + index + ".png");
+            Path source = Paths.get(folderPath).resolve("img" + index + ".png");
             Files.copy(source, 
-                    Paths.get((outputPath + "contents/")), 
-                    java.nio.file.StandardCopyOption.REPLACE_EXISTING);
+                    Paths.get(outputPath + "contents/").resolve(source.getFileName()));
             int urlStart = outputPath.indexOf("newsletters.nuscomputing.com");
+                    + outputPath.substring(urlStart, outputPath.length()) 
+                    + "contents/img" + index + ".png")));
             return String.format(HtmlConstants.CONTENT_IMG, "http://" 
                     + outputPath.substring(urlStart, outputPath.length()) 
-                    + "contents/img" + index);
+                    + "contents/img" + index + ".png");
         }
         return "";
     }
@@ -190,6 +191,8 @@ public class HtmlGenerator {
         String html = "";
         File files = new File(outputPath);
         files.mkdirs();
+        files = new File(outputPath + "contents/");
+        files.mkdirs();
         html += HtmlConstants.OPENING;
         html += getDate();
         if (emailType.equals(FLAG_EMAIL_BLAST)) {
@@ -225,11 +228,13 @@ public class HtmlGenerator {
         bufferedOutput =
                 new BufferedWriter(new OutputStreamWriter(new FileOutputStream(
                         outputPath + outputName)));
+        bufferedOutput.write(html);
+        bufferedOutput.close();
         int urlStart = outputPath.indexOf("newsletters.nuscomputing.com");
         bufferedOutput =
                 new BufferedWriter(new OutputStreamWriter(new FileOutputStream(
                         outputPath.substring(0, urlStart 
-                                + "newsletters.nuscomputing.com".length()) 
+                                + "newsletters.nuscomputing.com/".length()) 
                                 + outputName)));
         bufferedOutput.write(html);
         bufferedOutput.close();
