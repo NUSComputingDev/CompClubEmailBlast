@@ -74,15 +74,16 @@ public class HtmlGenerator {
             }
             titles += title;
         }
-        
         return String.format(HtmlConstants.CONTENT_TITLE, title);
     }
 
-    private String setImage(String folderPath, String outputPath, int index) throws IOException {
+    private String setImage(String folderPath, String outputPath, int index) 
+            throws IOException {
         if ((new File(folderPath + "img" + index + ".png")).exists()) {
             Path source = Paths.get(folderPath).resolve("img" + index + ".png");
             Files.copy(source, 
-                    Paths.get(outputPath + "contents/").resolve(source.getFileName()));
+                    Paths.get(outputPath + "contents/").resolve(source.getFileName()), 
+                    java.nio.file.StandardCopyOption.REPLACE_EXISTING);
             int urlStart = outputPath.indexOf("newsletters.nuscomputing.com");
             return String.format(HtmlConstants.CONTENT_IMG, "http://" 
                     + outputPath.substring(urlStart, outputPath.length()) 
@@ -155,7 +156,7 @@ public class HtmlGenerator {
                 html += HtmlConstants.CONTENT_START;
                 isSponsor = true;
             } else {
-                html = setLink(html, line.substring(6, line.length()));
+                html += setLink(html, line.substring(6, line.length()));
             }
         }
         html += HtmlConstants.CONTENT_END;
