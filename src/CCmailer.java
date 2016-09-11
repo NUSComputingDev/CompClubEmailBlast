@@ -42,9 +42,11 @@ import javax.mail.internet.MimeMultipart;
  */
 public class CCmailer {
 
-    private static final String MSG_WRONG_TYPE = "Please indicate either %s or %s";
-    private static final String EMAIL_BLAST = "emailBlast";
-    private static final String ACAD_ADVISORY = "acadAvisory";
+    private static final String MSG_WRONG_TYPE = 
+            "You have indicated: %s, please indicate either %s or %s";
+    private static final String MSG_EMAIL_SELECTED = "You have selected %s";
+    private static final String FLAG_EMAIL_BLAST = "emailBlast";
+    private static final String FLAG_ACAD_ADVISORY = "acadAdvisory";
     
     private static final String SERVER_CONNECTED = "Mail server connected";
     private static final String SERVER_CONNECTING =
@@ -216,7 +218,8 @@ public class CCmailer {
         BodyPart messageBodyPart = new MimeBodyPart();
 
         String htmlText =
-                htmlGenerator.generateHtml(folderPath, outputPath, outputName);
+                htmlGenerator.generateHtml(folderPath, outputPath, outputName, 
+                        emailType);
 
         messageBodyPart.setContent(htmlText, "text/html");
         multipart.addBodyPart(messageBodyPart);
@@ -280,10 +283,12 @@ public class CCmailer {
      */
     public static void main(String[] args) {
 
-        if (args[4] != EMAIL_BLAST || args[4] != ACAD_ADVISORY) {
-            System.out.println(String.format(MSG_WRONG_TYPE, EMAIL_BLAST, 
-                    ACAD_ADVISORY));
+        if (!args[4].equals(FLAG_EMAIL_BLAST)
+                && !args[4].equals(FLAG_ACAD_ADVISORY)) {
+            System.out.println(String.format(MSG_WRONG_TYPE, args[4], 
+                    FLAG_EMAIL_BLAST, FLAG_ACAD_ADVISORY));
         } else {
+            System.out.println(String.format(MSG_EMAIL_SELECTED, args[4]));
             CCmailer ccMailer = new CCmailer(args[0], args[1], args[2], args[3], 
                     args[4]);
             try {
