@@ -24,10 +24,14 @@ public final class HtmlConstants {
             + "                  <td style=\"padding:10px 20px;vertical-align:"
             + "middle;width:auto;text-align:justify;font-size:26pt;margin:0px\""
             + "><img src=\"cid:compclub-logo\">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"
-            + "&nbsp;&nbsp;Computing Club Newsletter</td>\n"
+            + "&nbsp;&nbsp;%s</td>\n"
             + "                </tr>\n"
             + "              </tbody>\n"
             + "            </table>\n";
+    public static final String ACAD_LOGO =
+              "                    <div style=\"width:556px;min-height:10px;"
+            + "text-align:center;vertical-align:middle;background-repeat:"
+            + "initial initial\"><img src=\"cid:acadliaison-logo\"></div>\n";
     public static final String CONTENT_START = 
               "            <table style=\"border:none;width:600px;table-layout"
             + ":fixed;color:rgb(85,85,85);font-family:Optima,'Trebuchet MS',"
