@@ -42,14 +42,14 @@ public final class HtmlConstants {
             + "top;width:auto;text-align:justify;font-size:12pt\">\n";
     public static final String CONTENT_TITLE = 
               "                    <p style=\"text-align:center;color:rgb"
-            + "(17,17,17);font-size:24pt;margin:10px 0px\">title</p>\n";
+            + "(17,17,17);font-size:24pt;margin:10px 0px\">%s</p>\n";
     public static final String CONTENT_IMG = 
               "                    <div style=\"width:556px;min-height:10px;"
             + "text-align:center;vertical-align:middle;background-repeat:"
-            + "initial initial\"><img src=\"cid:image\"></div>\n";
+            + "initial initial\"><img src=\"cid:%s\"></div>\n";
     public static final String CONTENT_LINK = 
               "                    <div style=\"text-align:right;font-size:20px"
-              + "\"><a href=\"link\">lnk-txt &rarr;</a></div>\n";
+              + "\"><a href=\"%s\">%s &rarr;</a></div>\n";
     public static final String CONTENT_END = 
               "                  </td>\n"
             + "                </tr>\n"

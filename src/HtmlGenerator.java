@@ -66,7 +66,7 @@ public class HtmlGenerator {
 
     private String setTitle(String html, String title, int index, 
             boolean isSponsor) {
-        html += HtmlConstants.CONTENT_TITLE.replace("title", title);
+        html += String.format(HtmlConstants.CONTENT_TITLE, title);
         if (!isSponsor) {
             if (index != 1) {
                 titles += " | ";
@@ -79,7 +79,7 @@ public class HtmlGenerator {
 
     private String setImage(String folderPath, String html, int index) {
         if ((new File(folderPath + "img" + index + ".png")).exists()) {
-            html += HtmlConstants.CONTENT_IMG.replace("image", "img" + index);
+            html += String.format(HtmlConstants.CONTENT_IMG, "img" + index);
         }
         return html;
     }
@@ -94,8 +94,8 @@ public class HtmlGenerator {
     private String setLink(String html, String link) throws IOException {
         String linkText = bufferedInput.readLine();
         html +=
-                HtmlConstants.CONTENT_LINK.replace("link", link).replace(
-                        "lnk-txt", linkText.substring(11, linkText.length()));
+                String.format(HtmlConstants.CONTENT_LINK, link, 
+                        linkText.substring(11, linkText.length()));
         return html;
     }
 
