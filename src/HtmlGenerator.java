@@ -1,11 +1,9 @@
 import java.io.BufferedReader;
-import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileOutputStream;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.io.OutputStreamWriter;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -33,7 +31,7 @@ public class HtmlGenerator {
 
     private static HtmlGenerator theHtmlGenerator;
 
-    private BufferedWriter bufferedOutput;
+    private FileWriter bufferedOutput;
     private BufferedReader bufferedInput;
 
     private String titles;
@@ -228,16 +226,14 @@ public class HtmlGenerator {
     public void writeHtml(String outputPath, String outputName, String html)
             throws IOException {
         bufferedOutput =
-                new BufferedWriter(new OutputStreamWriter(new FileOutputStream(
-                        outputPath + outputName)));
+                new FileWriter(new File(outputPath + outputName), false);
         bufferedOutput.write(html);
         bufferedOutput.close();
         int urlStart = outputPath.indexOf("newsletters.nuscomputing.com");
         bufferedOutput =
-                new BufferedWriter(new OutputStreamWriter(new FileOutputStream(
-                        outputPath.substring(0, urlStart 
-                                + "newsletters.nuscomputing.com/".length()) 
-                                + outputName)));
+                new FileWriter(new File(outputPath.substring(0, urlStart 
+                        + "newsletters.nuscomputing.com/".length()) 
+                        + outputName), false);
         bufferedOutput.write(html);
         bufferedOutput.close();
     }
