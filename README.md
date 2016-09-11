@@ -50,6 +50,6 @@ These steps will demonstrate the basic functionality of the programme using the 
 3. Run `CCmailer` using the 5 arguments: `samplePrivateInfo.txt sample/ sample/ sampleTest.html emailBlast` using Eclipse IDE <b>OR</b> for manual compilation, follow these steps:
    1. run `compile.sh` which will compile the files in the folder `src`. If you can't run it, ensure that you have the execution rights for the file
    2. Change to the `src` folder
-   3. run CCmailer with the classpath and the 5 arguments: For example, `java -cp ".:../lib/javax.mail.jar" CCmailer ../../samplePrivateinfo.txt ../sample/ ../sample/ ../sampleTest.html emailBlast`
+   3. run CCmailer with the classpath and the 5 arguments: For example, `java -cp ".:../lib/javax.mail.jar" CCmailer ../../samplePrivateinfo.txt ../sample/ ../sample/ sampleTest.html emailBlast`
 4. Check that you receive the sample e-mail
 5. The ouput html, `sampleTest.html`, is in the `sample/` folder
