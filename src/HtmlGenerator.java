@@ -80,7 +80,7 @@ public class HtmlGenerator {
     private String setImage(String folderPath, String outputPath, int index) throws IOException {
         if ((new File(folderPath + "img" + index + ".png")).exists()) {
             Files.copy(Paths.get(folderPath + "img" + index + ".png"), 
-                    Paths.get(outputPath + "contents/img" + index + ".png"));
+                    Paths.get(outputPath + "contents/"));
             int urlStart = outputPath.indexOf("newsletters.nuscomputing.com");
             return String.format(HtmlConstants.CONTENT_IMG, "http://" 
                     + outputPath.substring(urlStart, outputPath.length()) 
