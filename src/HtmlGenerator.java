@@ -82,7 +82,7 @@ public class HtmlGenerator {
         if ((new File(folderPath + "img" + index + ".png")).exists()) {
             Path source = Paths.get(folderPath + "img" + index + ".png");
             Files.copy(source, 
-                    Paths.get((outputPath + "contents/" + "img" + index + ".png")), 
+                    Paths.get((outputPath + "contents/")), 
                     java.nio.file.StandardCopyOption.REPLACE_EXISTING);
             int urlStart = outputPath.indexOf("newsletters.nuscomputing.com");
             return String.format(HtmlConstants.CONTENT_IMG, "http://" 
