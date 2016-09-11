@@ -3,17 +3,10 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.UnsupportedEncodingException;
-import java.nio.file.DirectoryStream;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Properties;
 
-import javax.activation.DataHandler;
-import javax.activation.DataSource;
-import javax.activation.FileDataSource;
 import javax.mail.BodyPart;
 import javax.mail.Message;
 import javax.mail.MessagingException;
@@ -192,27 +185,6 @@ public class CCmailer {
         }
     }
 
-    private void processImages(MimeMultipart multipart)
-            throws MessagingException, IOException {
-        BodyPart messageBodyPart;
-        try (DirectoryStream<Path> stream =
-                Files.newDirectoryStream(Paths.get(folderPath), "*.png")) {
-            for (Path entry : stream) {
-                String entryName = entry.getFileName().toString();
-
-                messageBodyPart = new MimeBodyPart();
-                DataSource fds = new FileDataSource(folderPath + entryName);
-
-                messageBodyPart.setDataHandler(new DataHandler(fds));
-                messageBodyPart.setHeader("Content-ID",
-                        "<" + entryName.substring(0, entryName.length() - 4)
-                                + ">");
-
-                multipart.addBodyPart(messageBodyPart);
-            }
-        }
-    }
-
     private MimeMultipart generateHtml() throws MessagingException, IOException {
         MimeMultipart multipart = new MimeMultipart("related");
         BodyPart messageBodyPart = new MimeBodyPart();
@@ -223,8 +195,6 @@ public class CCmailer {
 
         messageBodyPart.setContent(htmlText, "text/html");
         multipart.addBodyPart(messageBodyPart);
-
-        processImages(multipart);
 
         htmlGenerator.writeHtml(outputPath, outputName, htmlText);
 

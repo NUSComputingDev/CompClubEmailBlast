@@ -6,6 +6,8 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -64,9 +66,7 @@ public class HtmlGenerator {
         return html;
     }
 
-    private String setTitle(String html, String title, int index, 
-            boolean isSponsor) {
-        html += String.format(HtmlConstants.CONTENT_TITLE, title);
+    private String setTitle(String title, int index, boolean isSponsor) {
         if (!isSponsor) {
             if (index != 1) {
                 titles += " | ";
@@ -74,29 +74,32 @@ public class HtmlGenerator {
             titles += title;
         }
         
-        return html;
+        return String.format(HtmlConstants.CONTENT_TITLE, title);
     }
 
-    private String setImage(String folderPath, String html, int index) {
+    private String setImage(String folderPath, String outputPath, int index) throws IOException {
         if ((new File(folderPath + "img" + index + ".png")).exists()) {
-            html += String.format(HtmlConstants.CONTENT_IMG, "img" + index);
+            Files.copy(Paths.get(folderPath + "img" + index + ".png"), 
+                    Paths.get(outputPath + "contents/img" + index + ".png"));
+            int urlStart = outputPath.indexOf("newsletters.nuscomputing.com");
+            return String.format(HtmlConstants.CONTENT_IMG, "http://" 
+                    + outputPath.substring(urlStart, outputPath.length()) 
+                    + "contents/img" + index);
         }
-        return html;
+        return "";
     }
 
-    private String setText(String folderPath, String html, int index) {
+    private String setText(String folderPath, int index) {
         if ((new File(folderPath + "txt" + index + ".html")).exists()) {
-            html += "txt" + index;
+            return "txt" + index;
         }
-        return html;
+        return "";
     }
 
     private String setLink(String html, String link) throws IOException {
         String linkText = bufferedInput.readLine();
-        html +=
-                String.format(HtmlConstants.CONTENT_LINK, link, 
-                        linkText.substring(11, linkText.length()));
-        return html;
+        return String.format(HtmlConstants.CONTENT_LINK, link, 
+                linkText.substring(11, linkText.length()));
     }
 
     private String updateTexts(String folderPath, String html, int index)
@@ -119,8 +122,8 @@ public class HtmlGenerator {
         return html;
     }
 
-    private String generateContent(String folderPath, String emailType) 
-            throws IOException {
+    private String generateContent(String folderPath, String outputPath,
+            String emailType) throws IOException {
         String html = "";
         
         if (emailType.equals(FLAG_EMAIL_BLAST)) {
@@ -140,11 +143,10 @@ public class HtmlGenerator {
                 html = setContentEndAndStart(html, index);
                 index++;
             } else if (line.contains("title: ")) {
-                html =
-                        setTitle(html, line.substring(7, line.length()),
+                html += setTitle(line.substring(7, line.length()),
                                 index - '1', isSponsor);
-                html = setImage(folderPath, html, index - '1');
-                html = setText(folderPath, html, index - '1');
+                html += setImage(folderPath, outputPath, index - '1');
+                html += setText(folderPath, index - '1');
             } else if (line.equals("Sponsor")) {
                 html += HtmlConstants.CONTENT_END;
                 html += HtmlConstants.SPONSOR_TITLE;
@@ -183,7 +185,8 @@ public class HtmlGenerator {
     public String generateHtml(String folderPath, String outputPath,
             String outputName, String emailType) throws IOException {
         String html = "";
-        
+        File files = new File(outputPath);
+        files.mkdirs();
         html += HtmlConstants.OPENING;
         html += getDate();
         if (emailType.equals(FLAG_EMAIL_BLAST)) {
@@ -194,7 +197,7 @@ public class HtmlGenerator {
             html += HtmlConstants.ACAD_LOGO;
             html += HtmlConstants.CONTENT_END;
         }
-        html += generateContent(folderPath, emailType);
+        html += generateContent(folderPath, outputPath, emailType);
         html += HtmlConstants.ENDING;
 
         return html;
@@ -216,28 +219,15 @@ public class HtmlGenerator {
      */
     public void writeHtml(String outputPath, String outputName, String html)
             throws IOException {
-        String imagePointer = "img src=\"cid:";
-        String imagePrefix = "img src=\"";
-
-        while (html.contains(imagePointer)) {
-            int imageStartIndex =
-                    html.indexOf(imagePointer) + imagePrefix.length();
-            int extensionIndex =
-                    html.substring(imageStartIndex, html.length()).indexOf(
-                            "\">");
-            html =
-                    html.substring(0, imageStartIndex + extensionIndex)
-                            + ".png"
-                            + html.substring(imageStartIndex + extensionIndex,
-                                    html.length());
-            html = html.replaceFirst(imagePointer, imagePrefix);
-        }
-
-        File files = new File(outputPath);
-        files.mkdirs();
         bufferedOutput =
                 new BufferedWriter(new OutputStreamWriter(new FileOutputStream(
                         outputPath + outputName)));
+        int urlStart = outputPath.indexOf("newsletters.nuscomputing.com");
+        bufferedOutput =
+                new BufferedWriter(new OutputStreamWriter(new FileOutputStream(
+                        outputPath.substring(0, urlStart 
+                                + "newsletters.nuscomputing.com".length()) 
+                                + outputName)));
         bufferedOutput.write(html);
         bufferedOutput.close();
     }
