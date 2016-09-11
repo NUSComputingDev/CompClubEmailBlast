@@ -84,8 +84,6 @@ public class HtmlGenerator {
             Files.copy(source, 
                     Paths.get(outputPath + "contents/").resolve(source.getFileName()));
             int urlStart = outputPath.indexOf("newsletters.nuscomputing.com");
-                    + outputPath.substring(urlStart, outputPath.length()) 
-                    + "contents/img" + index + ".png")));
             return String.format(HtmlConstants.CONTENT_IMG, "http://" 
                     + outputPath.substring(urlStart, outputPath.length()) 
                     + "contents/img" + index + ".png");
