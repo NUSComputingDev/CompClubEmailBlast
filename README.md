@@ -38,7 +38,7 @@ These dependencies are included in the programme
 These steps will demonstrate the basic functionality of the programme using the sample files
 
 1. update `samplePrivateInfo.txt` file with the required information
-2. Run `CCmailer` using the 4 arguments: `samplePrivateInfo.txt sample/ sample/ sampleTest.html` usign Eclipse IDE <b>OR</b> place the relevant files(`samplePrivateInfo.txt` and the `sample/` folder) together, compile the required files and run CCmailer with the 4 arguments:
+2. Run `CCmailer` using the 4 arguments: `samplePrivateInfo.txt sample/ sample/ sampleTest.html` using Eclipse IDE <b>OR</b> place the relevant files(`samplePrivateInfo.txt` and the `sample/` folder) together, compile the required files and run CCmailer with the 4 arguments:
    * For example, `java CCmailer samplePrivateInfo.txt sample/ sample/ sampleTest.html`
 3. Check that you receive the sample e-mail
 4. The ouput html, `sampleTest.html`, is in the `sample/` folder
