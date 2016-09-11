@@ -56,4 +56,4 @@ These steps will demonstrate the basic functionality of the programme using the 
 
 ## Special Instructions ##
 
-`java -cp ".:../lib/javax.mail.jar" CCmailer ../../privateinfo.txt  ../sample/ ../../../Websites/newsletters.nuscomputing.com/2016/September/12/ index.html acadAdvisory`
+`java -cp ".:../lib/javax.mail.jar" CCmailer ../../privateinfo.txt  ../../../Documents/2016.09.12/ ../../../Websites/newsletters.nuscomputing.com/2016/September/12/ index.html acadAdvisory`
