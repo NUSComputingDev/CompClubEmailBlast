@@ -23,7 +23,8 @@ public final class HtmlConstants {
             + "                <tr>\n"
             + "                  <td style=\"padding:10px 20px;vertical-align:"
             + "middle;width:auto;text-align:justify;font-size:26pt;margin:0px\""
-            + "><img src=\"cid:compclub-logo\">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"
+            + "><img src=\"http://newsletters.nuscomputing.com/compclub-logo.png"
+            + "\">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"
             + "&nbsp;&nbsp;%s</td>\n"
             + "                </tr>\n"
             + "              </tbody>\n"
@@ -31,7 +32,8 @@ public final class HtmlConstants {
     public static final String ACAD_LOGO =
               "                    <div style=\"width:556px;min-height:10px;"
             + "text-align:center;vertical-align:middle;background-repeat:"
-            + "initial initial\"><img src=\"cid:acadliaison-logo\"></div>\n";
+            + "initial initial\"><img src=\"http://newsletters.nuscomputing.com/"
+            + "acadliaison-logo.png\"></div>\n";
     public static final String CONTENT_START = 
               "            <table style=\"border:none;width:600px;table-layout"
             + ":fixed;color:rgb(85,85,85);font-family:Optima,'Trebuchet MS',"
@@ -46,7 +48,7 @@ public final class HtmlConstants {
     public static final String CONTENT_IMG = 
               "                    <div style=\"width:556px;min-height:10px;"
             + "text-align:center;vertical-align:middle;background-repeat:"
-            + "initial initial\"><img src=\"cid:%s\"></div>\n";
+            + "initial initial\"><img src=\"%s\"></div>\n";
     public static final String CONTENT_LINK = 
               "                    <div style=\"text-align:right;font-size:20px"
               + "\"><a href=\"%s\">%s &rarr;</a></div>\n";
