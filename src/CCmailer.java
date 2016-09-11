@@ -42,10 +42,15 @@ import javax.mail.internet.MimeMultipart;
  */
 public class CCmailer {
 
+    private static final String MSG_WRONG_TYPE = "Please indicate either %s or %s";
+    private static final String EMAIL_BLAST = "emailBlast";
+    private static final String ACAD_ADVISORY = "acadAvisory";
+    
     private static final String SERVER_CONNECTED = "Mail server connected";
     private static final String SERVER_CONNECTING =
-            "Attempting to connect to the mail server";
+            "Attempting to connect to the mail server";    
     private static final String EMAIL_SENT = "Your email is sent!";
+    
     private static final String EMAIL_SEND = "You are sending from: %s (%s)";
     private static final String EMAIL_TO = "You are sending to: %s (%s)";
     private static final String EMAIL_CC = "You are cc-ing: %s";
@@ -56,6 +61,7 @@ public class CCmailer {
     private String folderPath;
     private String outputPath;
     private String outputName;
+    private String emailType;
 
     private HashMap<String, String> infoMap = new HashMap<String, String>();
 
@@ -84,13 +90,17 @@ public class CCmailer {
      * 
      * @param outputName
      *            the name of the html file to be generated
+     * 
+     * @param emailType
+     *            emailBlast or acadAdvisory
      */
     public CCmailer(String privateInfoFile, String folderPath,
-            String outputPath, String outputName) {
+            String outputPath, String outputName, String emailType) {
         this.privateInfoFile = privateInfoFile;
         this.folderPath = folderPath;
         this.outputPath = outputPath;
         this.outputName = outputName;
+        this.emailType = emailType;
         htmlGenerator = HtmlGenerator.getInstance();
     }
 
@@ -269,13 +279,20 @@ public class CCmailer {
      * @throws IOException
      */
     public static void main(String[] args) {
-        CCmailer ccMailer = new CCmailer(args[0], args[1], args[2], args[3]);
-        try {
-            ccMailer.readPrivateInfo();
-            ccMailer.populateEmailAddresses();
-            ccMailer.sendEmail();
-        } catch (Exception exception) {
-            exception.printStackTrace();
+
+        if (args[4] != EMAIL_BLAST || args[4] != ACAD_ADVISORY) {
+            System.out.println(String.format(MSG_WRONG_TYPE, EMAIL_BLAST, 
+                    ACAD_ADVISORY));
+        } else {
+            CCmailer ccMailer = new CCmailer(args[0], args[1], args[2], args[3], 
+                    args[4]);
+            try {
+                ccMailer.readPrivateInfo();
+                ccMailer.populateEmailAddresses();
+                ccMailer.sendEmail();
+            } catch (Exception exception) {
+                exception.printStackTrace();
+            }
         }
     }
 }
