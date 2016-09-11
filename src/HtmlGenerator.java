@@ -18,8 +18,15 @@ import java.util.Date;
  */
 public class HtmlGenerator {
 
-    private static final String TITLE_PREFIX = "[Comp Club] ";
+    private static final String ACAD_ADVISORY = "Academic Advisory";
+    private static final String CC_NEWSLETTER = "Computing Club Newsletter";
+    
+    private static final String TITLE_PREFIX_CC = "[Comp Club] ";
+    private static final String TITLE_PREFIX_AA = "[Acad Advisory] ";
     private static final String MAIN_TXT = "main.txt";
+
+    private static final String FLAG_EMAIL_BLAST = "emailBlast";
+    private static final String FLAG_ACAD_ADVISORY = "acadAdvisory";
 
     private static HtmlGenerator theHtmlGenerator;
 
@@ -112,9 +119,15 @@ public class HtmlGenerator {
         return html;
     }
 
-    private String generateContent(String folderPath) throws IOException {
+    private String generateContent(String folderPath, String emailType) 
+            throws IOException {
         String html = "";
-        titles = TITLE_PREFIX;
+        
+        if (emailType.equals(FLAG_EMAIL_BLAST)) {
+            titles = TITLE_PREFIX_CC;
+        } else if (emailType.equals(FLAG_ACAD_ADVISORY)) {
+            titles = TITLE_PREFIX_AA;
+        }
 
         bufferedInput =
                 new BufferedReader(new InputStreamReader(new FileInputStream(
@@ -168,13 +181,20 @@ public class HtmlGenerator {
      *             If the files are not readable
      */
     public String generateHtml(String folderPath, String outputPath,
-            String outputName) throws IOException {
+            String outputName, String emailType) throws IOException {
         String html = "";
-
+        
         html += HtmlConstants.OPENING;
         html += getDate();
-        html += HtmlConstants.AFTER_DATE;
-        html += generateContent(folderPath);
+        if (emailType.equals(FLAG_EMAIL_BLAST)) {
+            html += String.format(HtmlConstants.AFTER_DATE, CC_NEWSLETTER);
+        } else if (emailType.equals(FLAG_ACAD_ADVISORY)) {
+            html += String.format(HtmlConstants.AFTER_DATE, ACAD_ADVISORY);
+            html += HtmlConstants.CONTENT_START;
+            html += HtmlConstants.ACAD_LOGO;
+            html += HtmlConstants.CONTENT_END;
+        }
+        html += generateContent(folderPath, emailType);
         html += HtmlConstants.ENDING;
 
         return html;
@@ -236,7 +256,7 @@ public class HtmlGenerator {
         try {
             String generatedHTML =
                     htmlGenerator.generateHtml("sample/", "sampleOut/",
-                            "out.html");
+                            "out.html", "emailBlast");
             System.out.println(generatedHTML);
         } catch (IOException e) {
             e.printStackTrace();
