@@ -48,8 +48,8 @@ These steps will demonstrate the basic functionality of the programme using the 
 1. update `samplePrivateInfo.txt` file with the required information
 2. remove `acadliaison-logo.png` from the sample folder unless you are test sending Academic Advisory
 3. Run `CCmailer` using the 5 arguments: `samplePrivateInfo.txt sample/ sample/ sampleTest.html emailBlast` using Eclipse IDE <b>OR</b> for manual compilation, follow these steps:
-   * run `compile.sh` which will compile the files in the folder `src`. If you can't run, ensure that you have the execution rights for the file.
-   * Change to the `src` folder
-   * run CCmailer with the classpath and the 5 arguments: For example, `java -cp ".:../lib/javax.mail.jar" CCmailer ../../samplePrivateinfo.txt ../sample/ ../sample/ ../sampleTest.html emailBlast`
+   3.1. run `compile.sh` which will compile the files in the folder `src`. If you can't run it, ensure that you have the execution rights for the file
+   3.2. Change to the `src` folder
+   3.3. run CCmailer with the classpath and the 5 arguments: For example, `java -cp ".:../lib/javax.mail.jar" CCmailer ../../samplePrivateinfo.txt ../sample/ ../sample/ ../sampleTest.html emailBlast`
 4. Check that you receive the sample e-mail
 5. The ouput html, `sampleTest.html`, is in the `sample/` folder
