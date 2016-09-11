@@ -14,7 +14,14 @@ public final class HtmlConstants {
             + "            <table style=\"border:none;width:600px;color:"
             + "rgb(85,85,85);font-family:Optima,\'Trebuchet MS\',sans-serif\" "
             + "border=\"0\" width=\"600\">\n"
-            + "              <tbody>\n                <tr>\n"
+            + "              <tbody>\n"
+            + "                <tr>\n"
+            + "                  <td style=\"padding:10px 20px;vertical-align:"
+            + "middle;width:auto;text-align:center;font-size:10pt;margin:0px\""
+            + ">Having trouble reading this? View it in your browser at "
+            + "<a href=\"%s\">%s</a></td>\n"
+            + "                </tr>\n"
+            + "                <tr>\n"
             + "                  <td style=\"padding:10px 20px;vertical-align:"
             + "top;width:auto;text-align:justify;font-size:10pt\">";
     public static final String AFTER_DATE = 

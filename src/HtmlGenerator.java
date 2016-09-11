@@ -192,7 +192,10 @@ public class HtmlGenerator {
         files.mkdirs();
         files = new File(outputPath + "contents/");
         files.mkdirs();
-        html += HtmlConstants.OPENING;
+        int urlStart = outputPath.indexOf("newsletters.nuscomputing.com");
+        String indexUrl = "http://" + outputPath.substring(urlStart, 
+                outputPath.length()) + outputName;
+        html += String.format(HtmlConstants.OPENING, indexUrl, indexUrl);
         html += getDate();
         if (emailType.equals(FLAG_EMAIL_BLAST)) {
             html += String.format(HtmlConstants.AFTER_DATE, CC_NEWSLETTER);
