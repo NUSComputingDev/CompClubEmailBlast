@@ -32,13 +32,21 @@ These dependencies are included in the programme
 
 * JavaMail API (`https://java.net/projects/javamail/pages/Home`)
 
+## Argument inputs for CCmailer ##
+
+`CCmailer` takes in 5 arguments:
+    * name of the file containing private info (either relative path or static path)
+    * input folder containing the inputs (ending with "/")
+    * output folder to write the output to (ending with "/")
+    * name of the output html file (This html file will be placed in the output folder)
+    * type of e-mail (either emailBlast or acadAdvisory)
 
 ## Sample Instructions ##
 
 These steps will demonstrate the basic functionality of the programme using the sample files
 
 1. update `samplePrivateInfo.txt` file with the required information
-2. Run `CCmailer` using the 4 arguments: `samplePrivateInfo.txt sample/ sample/ sampleTest.html` using Eclipse IDE <b>OR</b> place the relevant files(`samplePrivateInfo.txt` and the `sample/` folder) together, compile the required files and run CCmailer with the 4 arguments:
-   * For example, `java CCmailer samplePrivateInfo.txt sample/ sample/ sampleTest.html`
+2. Run `CCmailer` using the 5 arguments: `samplePrivateInfo.txt sample/ sample/ sampleTest.html emailBlast` using Eclipse IDE <b>OR</b> place the relevant files(`samplePrivateInfo.txt` and the `sample/` folder) together, compile the required files and run CCmailer with the 5 arguments:
+   * For example, `java CCmailer samplePrivateInfo.txt sample/ sample/ sampleTest.html emailBlast`
 3. Check that you receive the sample e-mail
 4. The ouput html, `sampleTest.html`, is in the `sample/` folder
