@@ -43,9 +43,14 @@ import javax.mail.internet.MimeMultipart;
 public class CCmailer {
 
     private static final String SERVER_CONNECTED = "Mail server connected";
-
     private static final String SERVER_CONNECTING =
             "Attempting to connect to the mail server";
+    private static final String EMAIL_SENT = "Your email is sent!";
+    private static final String EMAIL_SEND = "You are sending from: %s (%s)";
+    private static final String EMAIL_TO = "You are sending to: %s (%s)";
+    private static final String EMAIL_CC = "You are cc-ing: %s";
+    private static final String EMAIL_BCC = "You are bcc-ing: %s";
+    private static final String EMAIL_REPLY_TO = "They will reply to: %s (%s)";
 
     private String privateInfoFile;
     private String folderPath;
@@ -130,16 +135,22 @@ public class CCmailer {
         if (infoMap.containsKey("to")) {
             to.add(new InternetAddress(infoMap.get("to"), infoMap
                     .get("to-name")));
+            System.out.println(String.format(EMAIL_TO, 
+                    infoMap.get("to-name"), infoMap.get("to")));
         }
         if (infoMap.containsKey("cc")) {
             cc.add(new InternetAddress(infoMap.get("cc")));
+            System.out.println(String.format(EMAIL_CC, infoMap.get("cc")));
         }
         if (infoMap.containsKey("bcc")) {
             bcc.add(new InternetAddress(infoMap.get("bcc")));
+            System.out.println(String.format(EMAIL_BCC, infoMap.get("bcc")));
         }
         if (infoMap.containsKey("reply-to")) {
             replyTo.add(new InternetAddress(infoMap.get("reply-to"), infoMap
                     .get("reply-to-name")));
+            System.out.println(String.format(EMAIL_REPLY_TO, 
+                    infoMap.get("reply-to-name"), infoMap.get("reply-to")));
         }
     }
 
@@ -149,6 +160,8 @@ public class CCmailer {
         if (infoMap.containsKey("from")) {
             message.setFrom(new InternetAddress(infoMap.get("from"), infoMap
                     .get("from-name")));
+            System.out.println(String.format(EMAIL_SEND, 
+                    infoMap.get("from-name"), infoMap.get("from")));
         }
         if (!to.isEmpty()) {
             message.setRecipients(Message.RecipientType.TO,
@@ -238,6 +251,7 @@ public class CCmailer {
                 infoMap.get("password"));
         System.out.println(SERVER_CONNECTED);
         transport.sendMessage(message, message.getAllRecipients());
+        System.out.println(EMAIL_SENT);
         transport.close();
     }
 
