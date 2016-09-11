@@ -24,7 +24,7 @@ public final class HtmlConstants {
             + "                  <td style=\"padding:10px 20px;vertical-align:"
             + "middle;width:auto;text-align:justify;font-size:26pt;margin:0px\""
             + "><img src=\"cid:compclub-logo\">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"
-            + "&nbsp;&nbsp;Computing Club Events</td>\n"
+            + "&nbsp;&nbsp;Computing Club Newsletter</td>\n"
             + "                </tr>\n"
             + "              </tbody>\n"
             + "            </table>\n";
