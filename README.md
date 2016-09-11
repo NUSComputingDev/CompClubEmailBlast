@@ -53,3 +53,7 @@ These steps will demonstrate the basic functionality of the programme using the 
    3. run CCmailer with the classpath and the 5 arguments: For example, `java -cp ".:../lib/javax.mail.jar" CCmailer ../../samplePrivateinfo.txt ../sample/ ../sample/ sampleTest.html emailBlast`
 4. Check that you receive the sample e-mail
 5. The ouput html, `sampleTest.html`, is in the `sample/` folder
+
+## Special Instructions ##
+
+`java -cp ".:../lib/javax.mail.jar" CCmailer ../../privateinfo.txt  ../sample/ ../../../Websites/newsletters.nuscomputing.com/2016/09/12 index.html acadAdvisory`
