@@ -11,8 +11,8 @@ The programme takes many assumptions. Some of them are:
 1. The inputs are well formed as expected by the programme, there is no error checking done by the programme
 2. For every e-mail item, there's at least a title; the image, text, and link are optional
 3. The information on the no. of items, titles, and links must be available in `main.txt` in the folder that contains all the contents. Each item is listed in `main.txt` chronologically. A title is needed for each item while the link&link-text pair is optional 
-4. Text files are named as `txti.html` where `i` is a number greater than `1`
-5. Image files are named as `imgi.html` where `i` is a number greater than `1`
+4. Text files are named as `txti.html` where `i` is a number greater than or equal to `1`
+5. Image files are named as `imgi.html` where `i` is a number greater than or equal to `1`
 
 ## Email Template ##
 
