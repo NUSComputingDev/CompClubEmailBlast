@@ -1,0 +1,35 @@
+{
+    "name": "compclub-email-blast",
+    "version": "0.1.0",
+    "description": "Create, edit and send an EDM.",
+
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/NUSComputingDev/CompClubEmailBlast.git"
+    },
+
+    "keywords": ["EDM", "NUSComputing"],
+    "author": "NUSComputingDev, Thenaesh Elango, Benedict Suratanakavikul",
+    "license": "MIT",
+    "bugs": {
+        "url": "https://github.com/NUSComputingDev/CompClubEmailBlast/issues"
+    },
+    "homepage": "https://github.com/NUSComputingDev/CompClubEmailBlast#readme",
+
+    "dependencies": {
+        "express": "^4.14.0"
+    },
+    "devDependencies": {
+        "babel-cli": "^6.18.0",
+        "babel-preset-env": "^1.1.4"
+    },
+
+    "babel": { "presets": ["env"] },
+
+    "scripts": {
+        "launch":  "./build.sh launch",
+        "tests":   "./build.sh tests",
+        "compile": "./build.sh compile",
+        "clean":   "./build.sh clean"
+    }
+}
