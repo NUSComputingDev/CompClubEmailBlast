@@ -27,9 +27,11 @@
     "babel": { "presets": ["env"] },
 
     "scripts": {
-        "launch":  "./build.sh launch",
-        "tests":   "./build.sh tests",
-        "compile": "./build.sh compile",
-        "clean":   "./build.sh clean"
+        "bglaunch": "./build.sh bglaunch",
+        "bgstop":   "./build.sh bgstop",
+        "launch":   "./build.sh launch",
+        "tests":    "./build.sh tests",
+        "compile":  "./build.sh compile",
+        "clean":    "./build.sh clean"
     }
 }

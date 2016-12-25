@@ -8,38 +8,80 @@ export DIR_TESTS="tests"
 export DIR_ASSETS="assets"
 
 
-function performLaunch {
-    node $DIR_BUILD/main.js
+function runLaunch {
+    if [ -f $DIR_BUILD/main.js ]; then
+        node $DIR_BUILD/main.js
+        exit 0
+    else
+        echo "The entry point ${DIR_BUILD}/main.js was not found."
+        exit 1
+    fi
 }
-function performTests {
+
+function runBackgroundLaunch {
+    if [ -f $DIR_BUILD/main.js ]; then
+        node $DIR_BUILD/main.js &
+        echo $! > .server_pid # keep track of the server's PID in a PID file
+        chmod 640 .server_pid # prevent accidental modification/deletion of the PID file
+        echo "Server Process: $!"
+        exit 0
+    else
+        echo "The entry point ${DIR_BUILD}/main.js was not found."
+        exit 1
+    fi
+}
+
+function runBackgroundStop {
+    if [ -f ".server_pid" ]; then
+        # PID file found
+        kill $(cat .server_pid)
+        rm .server_pid
+    else
+        # PID file not found
+        echo "The .server_pid file is missing and may have been deleted."
+        echo "If the server is still running, it must be killed manually."
+    fi
+
+    exit 0
+}
+
+function runTests {
+    echo "NOT IMPLEMENTED YET!"
     exit 1
 }
-function performCompile {
+
+function runCompile {
     node_modules/.bin/babel $DIR_SRC -d $DIR_BUILD
+    exit $?
 }
-function performClean {
+
+function runClean {
     if [ -d $DIR_BUILD ]; then
         rm -rf $DIR_BUILD
     fi
+
+    exit 0
 }
 
 
 case $1 in
     "launch")
-        performLaunch
-        exit 0
+        runLaunch
+        ;;
+    "bglaunch")
+        runBackgroundLaunch
+        ;;
+    "bgstop")
+        runBackgroundStop
         ;;
     "tests")
-        performTests
-        exit 0
+        runTests
         ;;
     "compile")
-        performCompile
-        exit 0
+        runCompile
         ;;
     "clean")
-        performClean
-        exit 0
+        runClean
         ;;
     *)
         :
