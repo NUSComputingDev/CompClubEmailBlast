@@ -1,12 +1,22 @@
 #!/bin/bash -
 
 
+###########################
+## Important Directories ##
+###########################
+
 export DIR_ROOT=`pwd`
 export DIR_BUILD="lib"
 export DIR_SRC="src"
 export DIR_TESTS="tests"
 export DIR_ASSETS="assets"
 
+
+#####################
+## Build Functions ##
+#####################
+
+# NOTE: All build functions must exit with a appropriate status code.
 
 function runLaunch {
     if [ -f $DIR_BUILD/main.js ]; then
@@ -64,6 +74,10 @@ function runClean {
 }
 
 
+#####################################
+## Command Line Parameter Handling ##
+#####################################
+
 case $1 in
     "launch")
         runLaunch
@@ -84,5 +98,5 @@ case $1 in
         runClean
         ;;
     *)
-        :
+        exit 0
 esac
