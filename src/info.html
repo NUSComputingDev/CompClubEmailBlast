@@ -1,49 +1,84 @@
 <!DOCTYPE html>
 <html>
-  <head>
+
+
+<head>
     <meta charset="UTF-8">
     <title>Computing Club Email Blast</title>
-    <script>
-        const dir = require('./js/directory_paths');
 
-        const nodeVersion = process.versions.node;
-        const chromeVersion = process.versions.chrome;
-        const electronVersion = process.versions.electron;
+    <!-- jQuery (some hackery involved due to jQuery bug)-->
+    <script>if (typeof module === 'object') {window.module = module; module = undefined;}</script>
+    <script src="https://code.jquery.com/jquery-3.1.1.min.js"
+            integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8="
+            crossorigin="anonymous"></script>
+    <script>if (window.module) module = window.module;</script>
 
-        function loadInfo() {
-            document.getElementById('node_version').innerHTML = nodeVersion;
-            document.getElementById('chrome_version').innerHTML = chromeVersion;
-            document.getElementById('electron_version').innerHTML = electronVersion;
+    <!-- Bootstrap -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
+                           integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u"
+                           crossorigin="anonymous">
 
-            document.getElementById('project_root').innerHTML = dir.ROOT;
-            document.getElementById('src_root').innerHTML = dir.SRC;
-            document.getElementById('tests_root').innerHTML = dir.TESTS;
-            document.getElementById('html_root').innerHTML = dir.HTML;
-            document.getElementById('css_root').innerHTML = dir.CSS;
-            document.getElementById('js_root').innerHTML = dir.JS;
-            document.getElementById('img_root').innerHTML = dir.IMG;
-        }
-    </script>
-  </head>
-  <body>
-    <h1>Computing Club Email Blast - Test Page</h1>
-    <ul>
-        <li>Node Version: <span id="node_version"></span></li>
-        <li>Chrome Version: <span id="chrome_version"></span></li>
-        <li>Electron Version: <span id="electron_version"></span></li>
-    </ul>
-    <ul>
-        <li>Project Root: <span id="project_root"></span></li>
-        <li>Sources Root: <span id="src_root"></span></li>
-        <li>Tests   Root: <span id="tests_root"></span></li>
-        <li>HTML    Root: <span id="html_root"></span></li>
-        <li>CSS     Root: <span id="css_root"></span></li>
-        <li>JS      Root: <span id="js_root"></span></li>
-        <li>Image   Root: <span id="img_root"></span></li>
-    </ul>
+    <link rel="stylesheet" href="css/info.css">
+    <script src="js/info.js"></script>
+</head>
+<body>
+    <div class="jumbotron">
+        <h1>Computing Club Email Blast</h1>
+        <p>Development Info Page</p>
+    </div>
 
-    <script>
-        loadInfo();
-    </script>
-  </body>
+    <table class="table table-responsive table-hover text-center">
+        <tr>
+            <th class="text-center">Runtime</th>
+            <th class="text-center">Version</th>
+        </tr>
+        <tr>
+            <td>Node</td>
+            <td><span id="node_version"></span></td>
+        </tr>
+        <tr>
+            <td>Chrome</td>
+            <td><span id="chrome_version"></span></td>
+        </tr>
+        <tr>
+            <td>Electron</td>
+            <td><span id="electron_version"></span></td>
+        </tr>
+    </table>
+
+    <table class="table table-responsive table-hover text-center">
+        <tr>
+            <th class="text-center">Directory</th>
+            <th class="text-center">Path</th>
+        </tr>
+        <tr>
+            <td>Project</td>
+            <td><span id="project_dir"></span></td>
+        </tr>
+        <tr>
+            <td>Sources</td>
+            <td><span id="src_dir"></span></td>
+        </tr>
+        <tr>
+            <td>Tests</td>
+            <td><span id="tests_dir"></span></td>
+        </tr>
+        <tr>
+            <td>HTML</td>
+            <td><span id="html_dir"></span></td>
+        </tr>
+        <tr>
+            <td>CSS</td>
+            <td><span id="css_dir"></span></td>
+        </tr>
+        <tr>
+            <td>JS</td>
+            <td><span id="js_dir"></span></td>
+        </tr>
+        <tr>
+            <td>Image</td>
+            <td><span id="img_dir"></span></td>
+        </tr>
+    </table>
+</body>
 </html>
