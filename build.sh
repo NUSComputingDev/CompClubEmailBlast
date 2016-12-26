@@ -10,10 +10,13 @@
 #       Don't redefine these variables somewhere in JS or anywhere else.
 #       This is in line with the DRY principle of software engineering.
 
-export DIR_ROOT=`pwd`
-export DIR_SRC="src"
-export DIR_TESTS="test"
-export DIR_ASSETS="assets"
+export ROOT=`pwd`
+export SRC=${ROOT}/src
+export TESTS=${ROOT}/tests
+export HTML=${SRC}/html
+export CSS=${SRC}/css
+export JS=${SRC}/js
+export IMG=${SRC}/img
 
 
 #####################
@@ -28,11 +31,11 @@ function doPackage {
 }
 
 function doStart {
-    if [ -f ${DIR_SRC}/main.js ]; then
-        ./node_modules/.bin/electron ${DIR_SRC}/main.js
+    if [ -f ${SRC}/main.js ]; then
+        ./node_modules/.bin/electron ${SRC}/main.js
         exit 0
     else
-        echo "The entry point ${DIR_SRC}/main.js was not found."
+        echo "The entry point ${SRC}/main.js was not found."
         exit 1
     fi
 }
