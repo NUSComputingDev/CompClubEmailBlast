@@ -1,8 +1,4 @@
 node_modules/
-
-.server_pid
-
 *.log
 *.swp
-
 */.DS_Store

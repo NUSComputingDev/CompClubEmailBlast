@@ -5,10 +5,14 @@
 ## Important Directories ##
 ###########################
 
+# NOTE: Use these whenever directory structure needs to be referenced.
+#       This can be done in Node with the `process` global.
+#       Don't redefine these variables somewhere in JS or anywhere else.
+#       This is in line with the DRY principle of software engineering.
+
 export DIR_ROOT=`pwd`
-export DIR_BUILD="lib"
 export DIR_SRC="src"
-export DIR_TESTS="tests"
+export DIR_TESTS="test"
 export DIR_ASSETS="assets"
 
 
@@ -18,59 +22,34 @@ export DIR_ASSETS="assets"
 
 # NOTE: All build functions must exit with a appropriate status code.
 
-function runLaunch {
-    if [ -f $DIR_BUILD/main.js ]; then
-        node $DIR_BUILD/main.js
-        exit 0
-    else
-        echo "The entry point ${DIR_BUILD}/main.js was not found."
-        exit 1
-    fi
-}
-
-function runBackgroundLaunch {
-    if [ -f $DIR_BUILD/main.js ]; then
-        node $DIR_BUILD/main.js &
-        echo $! > .server_pid # keep track of the server's PID in a PID file
-        chmod 640 .server_pid # prevent accidental modification/deletion of the PID file
-        echo "Server Process: $!"
-        exit 0
-    else
-        echo "The entry point ${DIR_BUILD}/main.js was not found."
-        exit 1
-    fi
-}
-
-function runBackgroundStop {
-    if [ -f ".server_pid" ]; then
-        # PID file found
-        kill $(cat .server_pid)
-        rm .server_pid
-    else
-        # PID file not found
-        echo "The .server_pid file is missing and may have been deleted."
-        echo "If the server is still running, it must be killed manually."
-    fi
-
-    exit 0
-}
-
-function runTests {
+function doPackage {
     echo "NOT IMPLEMENTED YET!"
     exit 1
 }
 
-function runCompile {
-    node_modules/.bin/babel $DIR_SRC -d $DIR_BUILD
-    exit $?
+function doStart {
+    if [ -f ${DIR_SRC}/main.js ]; then
+        ./node_modules/.bin/electron ${DIR_SRC}/main.js
+        exit 0
+    else
+        echo "The entry point ${DIR_SRC}/main.js was not found."
+        exit 1
+    fi
 }
 
-function runClean {
-    if [ -d $DIR_BUILD ]; then
-        rm -rf $DIR_BUILD
-    fi
+function doTest {
+    echo "NOT IMPLEMENTED YET!"
+    exit 1
+}
 
-    exit 0
+function doCompile {
+    echo "NOT IMPLEMENTED YET!"
+    exit 1
+}
+
+function doClean {
+    echo "NOT IMPLEMENTED YET!"
+    exit 1
 }
 
 
@@ -79,24 +58,23 @@ function runClean {
 #####################################
 
 case $1 in
-    "launch")
-        runLaunch
+    "package")
+        doPackage
         ;;
-    "bglaunch")
-        runBackgroundLaunch
+    "start")
+        doStart
         ;;
-    "bgstop")
-        runBackgroundStop
-        ;;
-    "tests")
-        runTests
+    "test")
+        doTest
         ;;
     "compile")
-        runCompile
+        doCompile
         ;;
     "clean")
-        runClean
+        doClean
         ;;
     *)
-        exit 0
+        # NOTE: DO NOT EXIT HERE!
+        #       This is to allow sourcing of this script for env vars.
+        :
 esac

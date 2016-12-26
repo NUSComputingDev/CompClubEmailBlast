@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <title>Computing Club Email Blast</title>
+    <script>
+        const nodeVersion = process.versions.node;
+        const chromeVersion = process.versions.chrome;
+        const electronVersion = process.versions.electron;
+        const projectRoot = process.env['DIR_ROOT'];
+
+        function loadInfo() {
+            document.getElementById('node_version').innerHTML = nodeVersion;
+            document.getElementById('chrome_version').innerHTML = chromeVersion;
+            document.getElementById('electron_version').innerHTML = electronVersion;
+            document.getElementById('project_root').innerHTML = projectRoot;
+        }
+    </script>
+  </head>
+  <body>
+    <h1>Computing Club Email Blast - Test Page</h1>
+    <ul>
+        <li>Node Version: <span id="node_version"></span></li>
+        <li>Chrome Version: <span id="chrome_version"></span></li>
+        <li>Electron Version: <span id="electron_version"></span></li>
+        <li>Project Root: <span id="project_root"></span>
+    </ul>
+
+    <script>
+        loadInfo();
+    </script>
+  </body>
+</html>
