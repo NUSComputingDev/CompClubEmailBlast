@@ -53,7 +53,7 @@ function doCompile {
 }
 
 function doClean {
-    if [ -e ${HTML}/*.html ]; then
+    if [ "$(ls ${HTML} | grep .html$)" ]; then
         rm ${HTML}/*.html
     fi
     exit 0
