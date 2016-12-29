@@ -1,15 +1,14 @@
 doctype html
 html
     head
-        title Computing Club Email Blast - Info Page
+        title Computing Club Email Blast - Debug Info Page
         include browser_dependencies.pug
-
-        link(rel='stylesheet', href=`${dir.CSS}/info.css`)
-        script(src=`${dir.SRC}/info.js`)
+        link(rel='stylesheet' href=`${dir.CSS}/debug.entrypoint.css`)
+        script(src=`${dir.SRC}/debug.entrypoint.js`)
     body
         div(class='jumbotron')
             h1 Computing Club Email Blast
-            p Development Info Page
+            p Debug Info Page
         table(class='table table-responsive table-hover text-center')
             tr
                 th(class='text-center') Runtime

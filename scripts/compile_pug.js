@@ -5,7 +5,8 @@ const pug = require('pug');
 const fs = require('fs');
 
 
-const filesToCompile = ['info'];
+const filesToCompile = ['debug.entrypoint',
+                        'blast.entrypoint'];
 
 const pugOptions = {
     pretty: true
