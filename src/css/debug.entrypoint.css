@@ -1,5 +1,6 @@
 .jumbotron {
     text-align: center;
     color: #FFFFFF;
-    background-color: #0000DD !important
+    background-color: #000000 !important;
+    margin-bottom: 0;
 }

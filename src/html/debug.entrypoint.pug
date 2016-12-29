@@ -9,21 +9,22 @@ html
         div(class='jumbotron')
             h1 Computing Club Email Blast
             p Debug Info Page
-        table(class='table table-responsive table-hover text-center')
-            tr
-                th(class='text-center') Runtime
-                th(class='text-center') Version
-            each runtime in ['Node', 'Chrome', 'Electron']
+        div(class='container-fluid')
+            table(class='table table-responsive table-hover text-center')
                 tr
-                    td= runtime
-                    td
-                        span(id=`${runtime.toLowerCase()}_version`)
-        table(class='table table-responsive table-hover text-center')
-            tr
-                th(class='text-center') Directory
-                th(class='text-center') Path
-            each location in ['Project', 'Sources', 'Tests', 'HTML', 'CSS', 'Images']
+                    th(class='text-center') Runtime
+                    th(class='text-center') Version
+                each runtime in ['Node', 'Chrome', 'Electron']
+                    tr
+                        td= runtime
+                        td
+                            span(id=`${runtime.toLowerCase()}_version`)
+            table(class='table table-responsive table-hover text-center')
                 tr
-                    td= location
-                    td
-                        span(id=`${location.toLowerCase()}_dir`)
+                    th(class='text-center') Directory
+                    th(class='text-center') Path
+                each location in ['Project', 'Sources', 'Tests', 'HTML', 'CSS', 'Images']
+                    tr
+                        td= location
+                        td
+                            span(id=`${location.toLowerCase()}_dir`)

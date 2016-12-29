@@ -1,0 +1,29 @@
+body {
+    background-color: #AAAABC;
+}
+
+.jumbotron {
+    text-align: center;
+    color: #FFFFFF;
+    background-color: #000055 !important;
+    margin-bottom: 0;
+}
+
+/*
+ * Navigation Bar Formatting
+ * -> remove ugly rounded corners
+ * -> use table display to make the elements occupy the full width of the bar
+ */
+ .navbar {
+     border-radius: 0;
+ }
+.navbar-nav {
+    display: table;
+    width: 100%;
+    margin: 0;
+}
+.navbar-nav > li {
+    float: none;
+    display: table-cell;
+    text-align: center;
+}

@@ -10,7 +10,7 @@ const url = require('url');
 
 let win = null;
 
-const pathOfPageToDisplay = path.join(dir.HTML, 'debug.entrypoint.html');
+const pathOfPageToDisplay = path.join(dir.HTML, 'blast.entrypoint.html');
 const urlOfPageToDisplay = url.format({
     pathname: pathOfPageToDisplay,
     protocol: 'file',
