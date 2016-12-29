@@ -17,15 +17,15 @@
   },
   "homepage": "https://github.com/NUSComputingDev/CompClubEmailBlast#readme",
   "dependencies": {
-    "electron": "^1.4.13"
+    "electron": "^1.4.13",
+    "pug": "^2.0.0-beta6"
   },
-  "devDependencies": {
-  },
+  "devDependencies": {},
   "scripts": {
+    "start": "./build.sh start",
     "package": "./build.sh package",
-    "start":   "./build.sh start",
-    "test":    "./build.sh test",
+    "test": "./build.sh test",
     "compile": "./build.sh compile",
-    "clean":   "./build.sh clean"
+    "clean": "./build.sh clean"
   }
 }

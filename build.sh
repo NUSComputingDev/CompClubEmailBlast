@@ -10,12 +10,14 @@
 #       Don't redefine these variables somewhere in JS or anywhere else.
 #       This is in line with the DRY principle of software engineering.
 
+# NOTE: Source this script only from the project root!
+#       Otherwise $ROOT will have the wrong value.
+
 export ROOT=`pwd`
 export SRC=${ROOT}/src
 export TESTS=${ROOT}/tests
 export HTML=${SRC}/html
 export CSS=${SRC}/css
-export JS=${SRC}/js
 export IMG=${SRC}/img
 
 
@@ -24,11 +26,6 @@ export IMG=${SRC}/img
 #####################
 
 # NOTE: All build functions must exit with a appropriate status code.
-
-function doPackage {
-    echo "NOT IMPLEMENTED YET!"
-    exit 1
-}
 
 function doStart {
     if [ -f ${SRC}/main.js ]; then
@@ -40,19 +37,26 @@ function doStart {
     fi
 }
 
+function doPackage {
+    echo "NOT IMPLEMENTED YET!"
+    exit 1
+}
+
 function doTest {
     echo "NOT IMPLEMENTED YET!"
     exit 1
 }
 
 function doCompile {
-    echo "NOT IMPLEMENTED YET!"
-    exit 1
+    ./scripts/compile_pug.js
+    exit 0
 }
 
 function doClean {
-    echo "NOT IMPLEMENTED YET!"
-    exit 1
+    if [ -e ${HTML}/*.html ]; then
+        rm ${HTML}/*.html
+    fi
+    exit 0
 }
 
 
@@ -61,11 +65,11 @@ function doClean {
 #####################################
 
 case $1 in
-    "package")
-        doPackage
-        ;;
     "start")
         doStart
+        ;;
+    "package")
+        doPackage
         ;;
     "test")
         doTest

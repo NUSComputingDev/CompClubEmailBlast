@@ -8,7 +8,6 @@ const pathsToPopulate = ['ROOT',
                          'TESTS',
                          'HTML',
                          'CSS',
-                         'JS',
                          'IMG'];
 
 const pathObj = {};

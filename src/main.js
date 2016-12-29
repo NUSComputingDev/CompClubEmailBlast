@@ -1,17 +1,16 @@
 /*
  * This is the entry point for Electron.
  */
+const dir = require(`${process.env['SRC']}/directory_paths`);
+
 
 const {app, BrowserWindow} = require('electron');
-
 const path = require('path');
 const url = require('url');
-const dir = require('./js/directory_paths');
-
 
 let win = null;
 
-const pathOfPageToDisplay = path.join(dir.SRC, 'info.html');
+const pathOfPageToDisplay = path.join(dir.HTML, 'info.html');
 const urlOfPageToDisplay = url.format({
     pathname: pathOfPageToDisplay,
     protocol: 'file',
