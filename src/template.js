@@ -62,5 +62,7 @@ function deleteHtml(fileNameWithoutExtension) {
 
 module.exports = {
     generateRendererHtml,
-    deleteRendererHtml
+    deleteRendererHtml,
+    generateHtml,
+    deleteHtml
 };
