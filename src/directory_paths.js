@@ -16,4 +16,5 @@ for (let path of pathsToPopulate) {
     pathObj[path] = process.env[path];
 }
 
+
 module.exports = pathObj;

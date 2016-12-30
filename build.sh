@@ -48,15 +48,13 @@ function doTest {
 }
 
 function doCompile {
-    ./scripts/compile_pug.js
-    exit 0
+    echo "NOT IMPLEMENTED YET"
+    exit 1
 }
 
 function doClean {
-    if [ "$(ls ${HTML} | grep .html$)" ]; then
-        rm ${HTML}/*.html
-    fi
-    exit 0
+    echo "NOT IMPLEMENTED YET!"
+    exit 1
 }
 
 
