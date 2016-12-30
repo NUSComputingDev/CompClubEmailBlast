@@ -10,7 +10,7 @@
 #       Don't redefine these variables somewhere in JS or anywhere else.
 #       This is in line with the DRY principle of software engineering.
 
-# NOTE: Source this script only from the project root!
+# NOTE: If sourcing this script, do so only from the project root.
 #       Otherwise $ROOT will have the wrong value.
 
 export ROOT=`pwd`
