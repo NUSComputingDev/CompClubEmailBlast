@@ -18,7 +18,20 @@ const rendererFiles = ['debug.entrypoint',
 let compiledFiles = new Set();
 
 
-function generateHtmlFromPug(fileNameWithoutExtension, localObjectToExpose) {
+function generateRendererHtml() {
+    for (let file of rendererFiles) {
+        generateHtml(file, {dir});
+    }
+}
+
+function deleteRendererHtml() {
+    for (let file of rendererFiles) {
+        deleteHtml(file, {dir});
+    }
+}
+
+
+function generateHtml(fileNameWithoutExtension, localObjectToExpose) {
     const pathToSourcePugFile = `${dir.HTML}/${fileNameWithoutExtension}.pug`;
     const pathToDestinationHtmlFile = `${dir.HTML}/${fileNameWithoutExtension}.html`;
 
@@ -34,29 +47,20 @@ function generateHtmlFromPug(fileNameWithoutExtension, localObjectToExpose) {
     });
 }
 
-function compileRendererHtml() {
-    for (let file of rendererFiles) {
-        generateHtmlFromPug(file, {dir});
-    }
-}
-
-function cleanGeneratedHtml() {
-    for (let fileNameWithoutExtension of compiledFiles) {
+function deleteHtml(fileNameWithoutExtension) {
         const pathToFileToDelete = `${dir.HTML}/${fileNameWithoutExtension}.html`;
 
         fs.unlink(pathToFileToDelete, (err, stats) => {
             if (err) {
                 console.log(`An error occured while cleaning ${fileNameWithoutExtension}.html`);
+            } else {
+                compiledFiles.delete(fileNameWithoutExtension);
             }
         });
-    }
-
-    compiledFiles.clear();
 }
 
 
 module.exports = {
-    generateHtmlFromPug,
-    compileRendererHtml,
-    cleanGeneratedHtml
+    generateRendererHtml,
+    deleteRendererHtml
 };

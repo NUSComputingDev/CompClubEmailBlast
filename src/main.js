@@ -5,7 +5,7 @@ const dir = require(`${process.env['SRC']}/directory_paths`);
 
 const path = require('path');
 const url = require('url');
-const templateCompiler = require(`${dir.SRC}/template_compiler`);
+const template = require(`${dir.SRC}/template`);
 const {app, BrowserWindow} = require('electron');
 
 
@@ -20,7 +20,7 @@ const urlOfPageToDisplay = url.format({
 
 
 app.on('ready', () => {
-    templateCompiler.compileRendererHtml();
+    template.generateRendererHtml();
     win = new BrowserWindow({width: 1280, height: 1024});
     win.loadURL(urlOfPageToDisplay);
     win.webContents.openDevTools();
@@ -28,5 +28,5 @@ app.on('ready', () => {
 });
 app.on('window-all-closed', () => {
     app.quit();
-    templateCompiler.cleanGeneratedHtml();
+    template.deleteRendererHtml();
 });
