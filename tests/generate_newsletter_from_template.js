@@ -1,6 +1,6 @@
-const dir = require(`${process.env['SRC']}/directory_paths`);
+const env = require(`${process.env['SRC']}/environment`);
 
-const template = require(`${dir.SRC}/template`);
+const template = require(`${env.SRC}/template`);
 
 
 template.generateHtml('edm', {

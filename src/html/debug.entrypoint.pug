@@ -1,15 +1,25 @@
 doctype html
 html
     head
-        title Computing Club Email Blast - Debug Info Page
+        title Debug Info Page
         include browser_dependencies.pug
-        link(rel='stylesheet' href=`${dir.CSS}/debug.entrypoint.css`)
-        script(src=`${dir.SRC}/debug.entrypoint.js`)
+        link(rel='stylesheet' href=`${env.CSS}/debug.entrypoint.css`)
+        script(src=`${env.SRC}/debug.entrypoint.js`)
     body
         div(class='jumbotron')
-            h1 Computing Club Email Blast
+            h1 #{env.APPNAME}
             p Debug Info Page
         div(class='container-fluid')
+            table(class='table table-responsive table-hover text-center')
+                tr
+                    th(class='text-center') Branding
+                    th(class='text-center') Value
+                tr
+                    td Organisation
+                    td #{env.ORGANISATION}
+                tr
+                    td Application Name
+                    td #{env.APPNAME}
             table(class='table table-responsive table-hover text-center')
                 tr
                     th(class='text-center') Runtime

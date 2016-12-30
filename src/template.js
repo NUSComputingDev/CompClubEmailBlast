@@ -2,7 +2,7 @@
  * This is the module that handles all the templates in the html directory.
  */
 
-const dir = require(`${process.env['SRC']}/directory_paths`);
+const env = require(`${process.env['SRC']}/environment`);
 
 const pug = require('pug');
 const fs = require('fs');
@@ -13,27 +13,27 @@ const pugOptions = {
 };
 
 const rendererFiles = ['debug.entrypoint',
-                       'blast.entrypoint'];
+                       'entrypoint'];
 
 let compiledFiles = new Set();
 
 
 function generateRendererHtml() {
     for (let file of rendererFiles) {
-        generateHtml(file, {dir});
+        generateHtml(file, {env});
     }
 }
 
 function deleteRendererHtml() {
     for (let file of rendererFiles) {
-        deleteHtml(file, {dir});
+        deleteHtml(file, {env});
     }
 }
 
 
 function generateHtml(fileNameWithoutExtension, localObjectToExpose) {
-    const pathToSourcePugFile = `${dir.HTML}/${fileNameWithoutExtension}.pug`;
-    const pathToDestinationHtmlFile = `${dir.HTML}/${fileNameWithoutExtension}.html`;
+    const pathToSourcePugFile = `${env.HTML}/${fileNameWithoutExtension}.pug`;
+    const pathToDestinationHtmlFile = `${env.HTML}/${fileNameWithoutExtension}.html`;
 
     const compiledFile = pug.compileFile(pathToSourcePugFile, pugOptions);
     const renderedFile = compiledFile(localObjectToExpose);
@@ -48,7 +48,7 @@ function generateHtml(fileNameWithoutExtension, localObjectToExpose) {
 }
 
 function deleteHtml(fileNameWithoutExtension) {
-        const pathToFileToDelete = `${dir.HTML}/${fileNameWithoutExtension}.html`;
+        const pathToFileToDelete = `${env.HTML}/${fileNameWithoutExtension}.html`;
 
         fs.unlink(pathToFileToDelete, (err, stats) => {
             if (err) {

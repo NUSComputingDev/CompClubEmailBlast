@@ -2,7 +2,7 @@
 
 
 ###########################
-## Important Directories ##
+## Environment Variables ##
 ###########################
 
 # NOTE: Use these whenever directory structure needs to be referenced.
@@ -12,6 +12,12 @@
 
 # NOTE: If sourcing this script, do so only from the project root.
 #       Otherwise $ROOT will have the wrong value.
+
+# NOTE: Branding is captured by the variables ORGANISATION and APPNAME.
+#       It is possible to rebrand the app by just changing these two variables.
+
+export ORGANISATION="NUS Students' Computing Club"
+export APPNAME="Computing Club Email Blast"
 
 export ROOT=`pwd`
 export SRC=${ROOT}/src

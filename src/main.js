@@ -1,17 +1,17 @@
 /*
  * This is the entry point for Electron.
  */
-const dir = require(`${process.env['SRC']}/directory_paths`);
+const env = require(`${process.env['SRC']}/environment`);
 
 const path = require('path');
 const url = require('url');
-const template = require(`${dir.SRC}/template`);
+const template = require(`${env.SRC}/template`);
 const {app, BrowserWindow} = require('electron');
 
 
 let win = null;
 
-const pathOfPageToDisplay = path.join(dir.HTML, 'blast.entrypoint.html');
+const pathOfPageToDisplay = path.join(env.HTML, 'entrypoint.html');
 const urlOfPageToDisplay = url.format({
     pathname: pathOfPageToDisplay,
     protocol: 'file',

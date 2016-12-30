@@ -1,4 +1,4 @@
-const dir = require(`${process.env['SRC']}/directory_paths`);
+const env = require(`${process.env['SRC']}/environment`);
 
 
 const nodeVersion = process.versions.node;
@@ -10,10 +10,10 @@ $('document').ready(() => {
     $('#chrome_version').html(chromeVersion);
     $('#electron_version').html(electronVersion);
 
-    $('#project_dir').html(dir.ROOT);
-    $('#sources_dir').html(dir.SRC);
-    $('#tests_dir').html(dir.TESTS);
-    $('#html_dir').html(dir.HTML);
-    $('#css_dir').html(dir.CSS);
-    $('#images_dir').html(dir.IMG);
+    $('#project_dir').html(env.ROOT);
+    $('#sources_dir').html(env.SRC);
+    $('#tests_dir').html(env.TESTS);
+    $('#html_dir').html(env.HTML);
+    $('#css_dir').html(env.CSS);
+    $('#images_dir').html(env.IMG);
 });
