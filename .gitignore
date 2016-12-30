@@ -1,5 +1,6 @@
 node_modules/
 tmp/
+src/html/*.html
 **.log
 **.swp
 **/.DS_Store
