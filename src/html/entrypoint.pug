@@ -1,17 +1,23 @@
 doctype html
 html
     head
-        title #{env.APPNAME}
+        title #{process.env.APPNAME}
         include browser_dependencies.pug
-        link(rel='stylesheet' href=`${env.CSS}/entrypoint.css`)
-        script(src=`${env.SRC}/entrypoint.js`)
+        link(rel='stylesheet' href=`${process.env.CSS}/entrypoint.css`)
+        script(src=`${process.env.SRC}/entrypoint.js`)
     body
-        div(class='jumbotron')
-            h1 #{env.APPNAME}
-        nav(class='navbar navbar-inverse')
+        div(class='jumbotron' id='region_header')
+            h1 #{process.env.APPNAME}
+        nav(class='navbar navbar-inverse' id='region_navbar')
             div(class='container-fluid')
                 ul(class='nav navbar-nav')
-                    li(class='active') #[a(href='#') Start]
-                    li #[a(href='#') Place Content]
-                    li #[a(href='#') Configure Settings]
-                    li #[a(href='#') Send]
+                    li(id='nav_start') #[a(href='#') Start]
+                    li(id='nav_content') #[a(href='#') Content]
+                    li(id='nav_settings') #[a(href='#') Settings]
+                    li(id='nav_send') #[a(href='#') Send]
+        div(class='container-fluid' id='region_main')
+            div(id='tab_start')
+            div(id='tab_content')
+                div(id='editor')
+            div(id='tab_settings')
+            div(id='tab_send')

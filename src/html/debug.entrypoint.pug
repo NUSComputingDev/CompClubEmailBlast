@@ -3,11 +3,11 @@ html
     head
         title Debug Info Page
         include browser_dependencies.pug
-        link(rel='stylesheet' href=`${env.CSS}/debug.entrypoint.css`)
-        script(src=`${env.SRC}/debug.entrypoint.js`)
+        link(rel='stylesheet' href=`${process.env.CSS}/debug.entrypoint.css`)
+        script(src=`${process.env.SRC}/debug.entrypoint.js`)
     body
         div(class='jumbotron')
-            h1 #{env.APPNAME}
+            h1 #{process.env.APPNAME}
             p Debug Info Page
         div(class='container-fluid')
             table(class='table table-responsive table-hover text-center')
@@ -16,10 +16,10 @@ html
                     th(class='text-center') Value
                 tr
                     td Organisation
-                    td #{env.ORGANISATION}
+                    td #{process.env.ORGANISATION}
                 tr
                     td Application Name
-                    td #{env.APPNAME}
+                    td #{process.env.APPNAME}
             table(class='table table-responsive table-hover text-center')
                 tr
                     th(class='text-center') Runtime

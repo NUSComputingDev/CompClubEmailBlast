@@ -27,3 +27,9 @@ body {
     display: table-cell;
     text-align: center;
 }
+
+#editor {
+    height: 500px;
+    width: 500px;
+    margin: auto;
+}

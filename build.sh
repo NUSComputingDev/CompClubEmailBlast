@@ -6,7 +6,7 @@
 ###########################
 
 # NOTE: Use these whenever directory structure needs to be referenced.
-#       This can be done in Node with the `process` global.
+#       This can be done in Node with `process.env`.
 #       Don't redefine these variables somewhere in JS or anywhere else.
 #       This is in line with the DRY principle of software engineering.
 
@@ -25,6 +25,7 @@ export BIN=${ROOT}/node_modules/.bin
 export LIB=${ROOT}/node_modules
 export SRC=${ROOT}/src
 export TESTS=${ROOT}/tests
+export TMP=${ROOT}/tmp
 
 export HTML=${SRC}/html
 export CSS=${SRC}/css
