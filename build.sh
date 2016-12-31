@@ -20,8 +20,12 @@ export ORGANISATION="NUS Students' Computing Club"
 export APPNAME="Computing Club Email Blast"
 
 export ROOT=`pwd`
+
+export BIN=${ROOT}/node_modules/.bin
+export LIB=${ROOT}/node_modules
 export SRC=${ROOT}/src
 export TESTS=${ROOT}/tests
+
 export HTML=${SRC}/html
 export CSS=${SRC}/css
 export IMG=${SRC}/img
@@ -35,7 +39,7 @@ export IMG=${SRC}/img
 
 function doStart {
     if [ -f ${SRC}/main.js ]; then
-        ./node_modules/.bin/electron ${SRC}/main.js
+        ${BIN}/electron ${SRC}/main.js
         exit 0
     else
         echo "The entry point ${SRC}/main.js was not found."
