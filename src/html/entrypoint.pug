@@ -6,18 +6,48 @@ html
         link(rel='stylesheet' href=`${process.env.CSS}/entrypoint.css`)
         script(src=`${process.env.SRC}/entrypoint.js`)
     body
-        div(class='jumbotron' id='region_header')
+        .jumbotron#region_header
             h1 #{process.env.APPNAME}
-        nav(class='navbar navbar-inverse' id='region_navbar')
-            div(class='container-fluid')
-                ul(class='nav navbar-nav')
-                    li(id='nav_start') #[a(href='#') Start]
-                    li(id='nav_content') #[a(href='#') Content]
-                    li(id='nav_settings') #[a(href='#') Settings]
-                    li(id='nav_send') #[a(href='#') Send]
-        div(class='container-fluid' id='region_main')
-            div(id='tab_start')
-            div(id='tab_content')
-                div(id='editor')
-            div(id='tab_settings')
-            div(id='tab_send')
+        nav.navbar.navbar-inverse#region_navbar
+            .container-fluid
+                ul.nav.navbar-nav
+                    li#nav_briefing #[a(href='#') Briefing]
+                    li#nav_content #[a(href='#') Content]
+                    li#nav_authentication #[a(href='#') Authentication]
+                    li#nav_send #[a(href='#') Send]
+        .container-fluid#region_main
+            #tab_briefing
+            #tab_content
+                #editor
+            #tab_authentication
+                form.form-horizontal
+                    .form-group
+                        label.control-label.col-sm-2(for='auth_host') Email Host:
+                        .col-sm-10
+                            input#auth_host.form-control(type='text', placeholder='Enter the hostname of the SMTP server to use.')
+                    .form-group
+                        label.control-label.col-sm-2(for='auth_port') Port:
+                        .col-sm-10
+                            input#auth_host.form-control(type='text', placeholder='Enter the port used by the SMTP server specified above.')
+                    .form-group
+                        label.control-label.col-sm-2(for='auth_secure') Secure
+                        .col-sm-10
+                            input#auth_secure(type='checkbox' value='')
+                    .form-group
+                        label.control-label.col-sm-2(for='auth_username') Username:
+                        .col-sm-10
+                            input#auth_username.form-control(type='text', placeholder='Enter your username for the SMTP server specified above.')
+                    .form-group
+                        label.control-label.col-sm-2(for='auth_pwd') Password:
+                        .col-sm-10
+                            input#auth_pwd.form-control(type='password', placeholder='Enter the password corresponding to your username above.')
+            #tab_send
+                .form.form-horizontal
+                    .form-group
+                        label.control-label.col-sm-2(for='send_address') Blast Address:
+                        .col-sm-10
+                            input#send_address.form-control(type='email', placeholder='Enter the email address to blast to.')
+                    .form-group
+                        .col-sm-2
+                        .col-sm-10
+                            button.btn.btn-danger(type='submit' value='') BLAST

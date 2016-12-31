@@ -5,7 +5,7 @@ $('document').ready(function() {
 });
 
 
-const TABS = new Set(['start', 'content', 'settings', 'send']);
+const TABS = new Set(['briefing', 'content', 'authentication', 'send']);
 
 function enableNavigation() {
     $('#region_navbar li').on('click', function() {
@@ -33,18 +33,18 @@ function showTab(tabToShow) {
 
 
 function loadAllTabs() {
-    loadStartTab();
+    loadBriefingTab();
     loadContentTab();
-    loadSettingsTab();
+    loadAuthenticationTab();
     loadSendTab();
 }
 
-function loadStartTab() {
+function loadBriefingTab() {
 }
 function loadContentTab() {
     createEditor('editor', 'monokai', 'xml');
 }
-function loadSettingsTab() {
+function loadAuthenticationTab() {
 }
 function loadSendTab() {
 }
