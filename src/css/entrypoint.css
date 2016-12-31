@@ -33,3 +33,7 @@ body {
     width: 500px;
     margin: auto;
 }
+
+#region_main > div {
+    display: none;
+}
