@@ -1,0 +1,19 @@
+{
+    "items" : [
+        {
+            "title" : "First Blast Item",
+            "image" : "https://www.website1.com/path/to/image1.png",
+            "text"  : ""
+        },
+        {
+            "title" : "Second Blast Item",
+            "image" : "https://www.website2.com/path/to/image2.png",
+            "text"  : ""
+        },
+        {
+            "title" : "Third Blast Item",
+            "image" : "https://www.website3.com/path/to/image3.png",
+            "text"  : ""
+        }
+    ]
+}

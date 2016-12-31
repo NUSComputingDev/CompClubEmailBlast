@@ -42,7 +42,7 @@ function loadAllTabs() {
 function loadBriefingTab() {
 }
 function loadContentTab() {
-    createEditor('editor', 'monokai', 'xml');
+    createEditor('editor', 'monokai', 'json');
 }
 function loadAuthenticationTab() {
 }
