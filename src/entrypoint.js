@@ -8,7 +8,7 @@ $('document').ready(function() {
 const TABS = new Set(['start', 'content', 'settings', 'send']);
 
 function enableNavigation() {
-    $("#region_navbar li").on("click", function() {
+    $('#region_navbar li').on('click', function() {
         const tabName = this.id.replace('nav_', '');
 
         highlightTabInNavigationBar(tabName);
@@ -17,15 +17,18 @@ function enableNavigation() {
 }
 
 function highlightTabInNavigationBar(tabToHighlight) {
-    $("li").removeClass("active");
-    $(`#nav_${tabToHighlight}`).addClass("active");
+    const allElements = $('#region_navbar li');
+    const elementToHighlight = $(`#nav_${tabToHighlight}`);
+
+    allElements.removeClass("active");
+    elementToHighlight.addClass("active");
 }
 function showTab(tabToShow) {
-    for (let tabName of TABS) {
-        const tabElement = $(`#tab_${tabName}`);
-        if (tabName === tabToShow) tabElement.show();
-        else                       tabElement.hide();
-    }
+    const allElements = $('#region_main > div');
+    const elementToShow = $(`#tab_${tabToShow}`);
+
+    allElements.hide();
+    elementToShow.show();
 }
 
 
