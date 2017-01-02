@@ -1,5 +1,11 @@
-# Auto detect text files and perform LF normalization
-* text=auto
+# Force LF for all platforms
+*.sh text eof=lf
+*.js text eof=lf
+*.pug text eof=lf
+*.css text eof=lf
+*.html text eof=lf
+*.json text eof=lf
+*.xml text eof=lf
 
 # Custom for Visual Studio
 *.cs     diff=csharp
