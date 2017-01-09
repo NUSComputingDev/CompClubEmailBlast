@@ -39,6 +39,7 @@ export IMG=${SRC}/img
 # NOTE: All build functions must exit with a appropriate status code.
 
 function doStart {
+    checkTmp
     if [ -f ${SRC}/main.js ]; then
         ${BIN}/electron ${SRC}/main.js
         exit 0
@@ -66,6 +67,16 @@ function doCompile {
 function doClean {
     echo "NOT IMPLEMENTED YET!"
     exit 1
+}
+
+function checkTmp {
+    echo "checkTmp: Check if ${TMP} exists..."
+    if [ ! -d ${TMP} ]; then
+        echo "checkTmp: ${TMP} does not exist!"
+        echo "checkTmp: Executing mkdir ${TMP}..."
+        mkdir ${TMP}
+    fi
+    echo "checkTmp: Complete."
 }
 
 
