@@ -25,37 +25,43 @@ html
                     .form-group
                         label.control-label.col-sm-2(for='auth_host') Email Host:
                         .col-sm-10
-                            input#auth_host.form-control(type='text', placeholder='Enter the hostname of the SMTP server to use.')
+                            input#auth_host.form-control(type='text', value='SMTP SERVER')
+                            small.form-text.text-muted Enter the hostname of the SMTP server to use.
                     .form-group
                         label.control-label.col-sm-2(for='auth_port') Port:
                         .col-sm-10
-                            input#auth_port.form-control(type='text', placeholder='Enter the port used by the SMTP server specified above.')
+                            input#auth_port.form-control(type='text', value='PORT NUMBER')
+                            small.form-text.text-muted Enter the port used by the SMTP server specified above.
                     .form-group
                         label.control-label.col-sm-2(for='auth_secure') Secure
                         .col-sm-10
-                            input#auth_secure(type='checkbox' value='')
+                            input#auth_secure(type='checkbox' value='' checked)
                     .form-group
                         label.control-label.col-sm-2(for='auth_username') Username:
                         .col-sm-10
-                            input#auth_username.form-control(type='text', placeholder='Enter your username for the SMTP server specified above.')
+                            input#auth_username.form-control(type='text', value='USERNAME')
+                            small.form-text.text-muted Enter your username for the SMTP server specified above.
                     .form-group
                         label.control-label.col-sm-2(for='auth_password') Password:
                         .col-sm-10
-                            input#auth_password.form-control(type='password', placeholder='Enter the password corresponding to your username above.')
+                            input#auth_password.form-control(type='password', value='PASSWORD')
+                            small.form-text.text-muted Enter the password corresponding to your username above.
             #tab_send
                 .form.form-horizontal
                     .form-group
                         label.control-label.col-sm-2(for='send_from') Source Address:
                         .col-sm-10
-                            input#send_from.form-control(type='email', placeholder='Enter the email address to blast from.')
+                            input#send_from.form-control(type='email', value='FROM EMAIL')
+                            small.form-text.text-muted Enter the email address to blast from.
                     .form-group
                         label.control-label.col-sm-2(for='send_to') Destination Address:
                         .col-sm-10
-                            input#send_to.form-control(type='email', placeholder='Enter the email address to blast to.')
+                            input#send_to.form-control(type='email', value='TO EMAIL')
+                            small.form-text.text-muted Enter the email address to blast to.
                     .form-group
                         label.control-label.col-sm-2(for='send_subject') Subject:
                         .col-sm-10
-                            input#send_subject.form-control(type='email', placeholder='Enter the email subject.')
+                            input#send_subject.form-control(type='email', placeholder='ADD DROPDOWN')
                     .form-group
                         .col-sm-2
                         .col-sm-10
