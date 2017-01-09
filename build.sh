@@ -39,7 +39,7 @@ export IMG=${SRC}/img
 # NOTE: All build functions must exit with a appropriate status code.
 
 function doStart {
-    checkTmp
+    createTmpDirectoryIfNotExists
     if [ -f ${SRC}/main.js ]; then
         ${BIN}/electron ${SRC}/main.js
         exit 0
@@ -69,16 +69,11 @@ function doClean {
     exit 1
 }
 
-function checkTmp {
-    echo "checkTmp: Check if ${TMP} exists..."
+function createTmpDirectoryIfNotExists {
     if [ ! -d ${TMP} ]; then
-        echo "checkTmp: ${TMP} does not exist!"
-        echo "checkTmp: Executing mkdir ${TMP}..."
         mkdir ${TMP}
     fi
-    echo "checkTmp: Complete."
 }
-
 
 #####################################
 ## Command Line Parameter Handling ##
