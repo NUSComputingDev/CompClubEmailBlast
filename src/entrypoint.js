@@ -9,7 +9,10 @@ $('document').ready(function() {
 
 
 const TABS = new Set(['briefing', 'content', 'authentication', 'send']);
+
 let editor = null;
+let editorHtml = null;
+
 
 function enableNavigation() {
     $('#region_navbar li').on('click', function() {
@@ -46,7 +49,29 @@ function loadAllTabs() {
 function loadBriefingTab() {
 }
 function loadContentTab() {
-    editor = createEditor('editor', 'monokai', 'json');
+    // one for the EDM parameters in JSON, one for the generated EDM HTML
+    editor = createEditor('editor_blast', 'monokai', 'json');
+    editorHtml = createEditor('editor_blast_html', 'monokai', 'html');
+
+    // ensure that editors don't scroll while typing
+    editor.$blockScrolling = true;
+    editorHtml.$blockScrolling = true;
+
+    // live updates
+    editor.getSession().on('change', function(e) {
+        const edmParametersJsonString = editor.getValue();
+
+        try {
+            const edmParameters = JSON.parse(edmParametersJsonString);
+            const compiledEdmHtml = template.compileTemplate('edm', edmParameters);
+            editorHtml.setValue(compiledEdmHtml);
+        } catch (e) {
+            // malformed/incomplete JSON that cannot be used to generate the EDM HTML
+            // this is a normal occurrence while the user is typing
+            // just ignore
+        }
+    });
+
 }
 function loadAuthenticationTab() {
 }
@@ -55,7 +80,7 @@ function loadSendTab() {
         const from = $('#send_from').val();
         const to = $('#send_to').val();
         const subject = $('#send_subject').val();
-        const content = extractEmailData();
+        const content = editorHtml.getValue();
 
         const host = $('#auth_host').val();
         const port = $('#auth_port').val();
@@ -77,14 +102,6 @@ function createEditor(editorId, themeName, languageName) {
     editor.getSession().setMode(`ace/mode/${languageName}`);
     return editor;
 }
-
-function extractEmailData() {
-    const emailVars = JSON.parse(editor.getValue());
-    const emailData = template.compileTemplate('edm', emailVars);
-
-    return emailData;
-}
-
 
 function createCredentialObject(host, port, isSecure, username, password) {
     return {

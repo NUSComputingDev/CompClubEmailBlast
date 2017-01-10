@@ -28,10 +28,11 @@ body {
     text-align: center;
 }
 
-#editor {
+.editor {
     height: 630px;
     width: 630px;
     margin: auto;
+    display: inline-block;
 }
 
 #region_main > div {
