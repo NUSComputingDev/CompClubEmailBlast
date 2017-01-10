@@ -39,6 +39,7 @@ export IMG=${SRC}/img
 # NOTE: All build functions must exit with a appropriate status code.
 
 function doStart {
+    createTmpDirectoryIfNotExists
     if [ -f ${SRC}/main.js ]; then
         ${BIN}/electron ${SRC}/main.js
         exit 0
@@ -68,6 +69,11 @@ function doClean {
     exit 1
 }
 
+function createTmpDirectoryIfNotExists {
+    if [ ! -d ${TMP} ]; then
+        mkdir ${TMP}
+    fi
+}
 
 #####################################
 ## Command Line Parameter Handling ##
