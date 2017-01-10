@@ -39,14 +39,11 @@ export IMG=${SRC}/img
 # NOTE: All build functions must exit with a appropriate status code.
 
 function doStart {
-    createTmpDirectoryIfNotExists
-    if [ -f ${SRC}/main.js ]; then
-        ${BIN}/electron ${SRC}/main.js
-        exit 0
-    else
-        echo "The entry point ${SRC}/main.js was not found."
-        exit 1
-    fi
+    createDirectoryIfNotExists ${TMP}
+    startAppInElectron ${SRC}/main.js
+    local appStartStatusCode=$?
+    deleteDirectoryIfExists ${TMP}
+    return ${appStartStatusCode}
 }
 
 function doPackage {
@@ -69,9 +66,36 @@ function doClean {
     exit 1
 }
 
-function createTmpDirectoryIfNotExists {
-    if [ ! -d ${TMP} ]; then
-        mkdir ${TMP}
+
+######################
+## Helper Functions ##
+######################
+
+function createDirectoryIfNotExists {
+    local dirToCreate=$1
+
+    if [ ! -d ${dirToCreate} ]; then
+        mkdir ${dirToCreate}
+    fi
+}
+
+function deleteDirectoryIfExists {
+    local dirToDelete=$1
+
+    if [ -d ${dirToDelete} ]; then
+        rm -rf ${dirToDelete}
+    fi
+}
+
+function startAppInElectron {
+    local entryPoint=$1
+
+    if [ -f ${entryPoint} ]; then
+        ${BIN}/electron ${entryPoint}
+        return 0
+    else
+        echo "The entry point ${entryPoint} was not found."
+        return 1
     fi
 }
 
