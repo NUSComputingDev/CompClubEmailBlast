@@ -1,7 +1,7 @@
 {
-    "logo"   : "",
-    "date"   : "",
-    "header" : "",
+    "logo"   : "http://newsletters.nuscomputing.com/compclub-logo.png",
+    "date"   : "01 July 1998",
+    "header" : "Computing Club Newsletter",
     "items" : [
         {
             "title" : "First Blast Item",
