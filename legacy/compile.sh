@@ -1,1 +1,0 @@
-javac -classpath lib/javax.mail.jar src/*.java
