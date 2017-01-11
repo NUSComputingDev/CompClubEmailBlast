@@ -1,0 +1,6 @@
+1
+title: Comp Club Message 1
+2
+title: Acad Advisory
+link: http://nuscomputing.com
+link-text: Find out more about our club here!
