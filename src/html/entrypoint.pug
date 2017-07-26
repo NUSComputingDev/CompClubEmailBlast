@@ -46,13 +46,33 @@ html
             #tab_send
                 .form.form-horizontal
                     .form-group
-                        label.control-label.col-sm-2(for='send_from') Source Address:
+                        label.control-label.col-sm-2(for='send_from_name') Name of sender:
                         .col-sm-10
-                            input#send_from.form-control(type='email', placeholder='Enter the email address to blast from.')
+                            input#send_from_name.form-control(type='text', placeholder="E.g. NUS Students' Computing Club Management Committee")
                     .form-group
-                        label.control-label.col-sm-2(for='send_to') Destination Address:
+                        label.control-label.col-sm-2(for='send_from_email') Source Address:
                         .col-sm-10
-                            input#send_to.form-control(type='email', placeholder='Enter the email address to blast to.')
+                            input#send_from_email.form-control(type='email', placeholder='Enter the email address to blast from.')
+                    .form-group
+                        label.control-label.col-sm-2(for='send_to_name') Name of recipient:
+                        .col-sm-10
+                            input#send_to_name.form-control(type='text', placeholder="E.g. NUS Students' Computing Club Members")
+                    .form-group
+                        label.control-label.col-sm-2(for='send_to_email') Destination Address:
+                        .col-sm-10
+                            input#send_to_email.form-control(type='email', placeholder='Enter the email address to blast to.')
+                    .form-group
+                        label.control-label.col-sm-2(for='send_bcc') BCC:
+                        .col-sm-10
+                            input#send_bcc.form-control(type='email', placeholder='BCC another MC member email')
+                    .form-group
+                        label.control-label.col-sm-2(for='send_replyTo_name') Reply-to recipient name:
+                        .col-sm-10
+                            input#send_replyTo_name.form-control(type='text', placeholder='E.g. General Secretariat')
+                    .form-group
+                        label.control-label.col-sm-2(for='send_replyTo_email') Reply-to address:
+                        .col-sm-10
+                            input#send_replyTo_email.form-control(type='email', placeholder='E.g. secretariat@nuscomputing.com')
                     .form-group
                         label.control-label.col-sm-2(for='send_subject') Subject:
                         .col-sm-10

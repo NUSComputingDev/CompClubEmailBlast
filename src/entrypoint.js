@@ -77,8 +77,19 @@ function loadAuthenticationTab() {
 }
 function loadSendTab() {
     $('#blast').on('click', function() {
-        const from = $('#send_from').val();
-        const to = $('#send_to').val();
+        const from = {
+            name: $('#send_from_name').val(),
+            address: $('#send_from_email').val()
+        };
+        const to = {
+            name: $('#send_to_name').val(),
+            address: $('#send_to_email').val()
+        };
+        const bcc = $('#send_bcc').val();
+        const replyTo = {
+            name: $('#send_replyTo_name').val(),
+            address: $('#send_replyTo_email').val()
+        };
         const subject = $('#send_subject').val();
         const content = editorHtml.getValue();
 
@@ -89,7 +100,7 @@ function loadSendTab() {
         const password = $('#auth_password').val();
 
         const credentialObj = createCredentialObject(host, port, isSecure, username, password);
-        const emailObj = createEmailObject(from, to, subject, content);
+        const emailObj = createEmailObject(from, to, bcc, replyTo, subject, content);
 
         sendMail(credentialObj, emailObj);
     });
@@ -115,10 +126,12 @@ function createCredentialObject(host, port, isSecure, username, password) {
     };
 }
 
-function createEmailObject(from, to, subject, content) {
+function createEmailObject(from, to, bcc, replyTo, subject, content) {
     return {
         from: from,
         to: to,
+        bcc: bcc,
+        replyTo: replyTo,
         subject: subject,
         html: content
     };
