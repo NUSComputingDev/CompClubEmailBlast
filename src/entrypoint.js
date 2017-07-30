@@ -77,32 +77,50 @@ function loadAuthenticationTab() {
 }
 function loadSendTab() {
     $('#blast').on('click', function() {
-        const from = {
-            name: $('#send_from_name').val(),
-            address: $('#send_from_email').val()
-        };
-        const to = {
-            name: $('#send_to_name').val(),
-            address: $('#send_to_email').val()
-        };
-        const bcc = $('#send_bcc').val();
-        const replyTo = {
-            name: $('#send_replyTo_name').val(),
-            address: $('#send_replyTo_email').val()
-        };
-        const subject = $('#send_subject').val();
-        const content = editorHtml.getValue();
+        swal({
+            title: 'Are you sure?',
+            text: "You won't be able to undo this blast!",
+            type: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Confirm send'
+        }).then(function () {
+            const from = {
+                name: $('#send_from_name').val(),
+                address: $('#send_from_email').val()
+            };
+            const to = {
+                name: $('#send_to_name').val(),
+                address: $('#send_to_email').val()
+            };
+            const bcc = $('#send_bcc').val();
+            const replyTo = {
+                name: $('#send_replyTo_name').val(),
+                address: $('#send_replyTo_email').val()
+            };
+            const subject = $('#send_subject').val();
+            const content = editorHtml.getValue();
 
-        const host = $('#auth_host').val();
-        const port = $('#auth_port').val();
-        const isSecure = $('#auth_secure').prop('checked');
-        const username = $('#auth_username').val();
-        const password = $('#auth_password').val();
+            const host = $('#auth_host').val();
+            const port = $('#auth_port').val();
+            const isSecure = $('#auth_secure').prop('checked');
+            const username = $('#auth_username').val();
+            const password = $('#auth_password').val();
 
-        const credentialObj = createCredentialObject(host, port, isSecure, username, password);
-        const emailObj = createEmailObject(from, to, bcc, replyTo, subject, content);
+            const credentialObj = createCredentialObject(host, port, isSecure, username, password);
+            const emailObj = createEmailObject(from, to, bcc, replyTo, subject, content);
 
-        sendMail(credentialObj, emailObj);
+            sendMail(credentialObj, emailObj);
+        }, function (dismiss) {
+            if (dismiss === 'cancel') {
+                swal({
+                    title: 'Cancelled',
+                    text: "You will be back in edit mode.",
+                    type: 'error'
+                });
+            }
+        });
     });
 }
 
@@ -144,8 +162,20 @@ function sendMail(credentialObject, emailObject) {
         if (err) {
             console.log('An error occurred.');
             console.log(err);
+            swal({
+              title: 'Error!',
+              text: "Your mail might not have been sent. Press Ctrl+Shift+I to view the log.",
+              type: 'error',
+              confirmButtonText: 'OK'
+            });
         } else {
             console.log(JSON.stringify(info));
+            swal({
+              title: 'Success!',
+              text: "Your mail has been sent. Press Ctrl+Shift+I to view the log.",
+              type: 'success',
+              confirmButtonText: 'OK'
+            });
         }
     });
 }
