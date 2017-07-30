@@ -5,6 +5,11 @@ html
         include browser_dependencies.pug
         link(rel='stylesheet' href=`${process.env.CSS}/entrypoint.css`)
         script(src=`${process.env.SRC}/entrypoint.js`)
+        // SweetAlert2
+        script(src='https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/6.6.6/sweetalert2.min.js')
+        link(rel='stylesheet', href='https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/6.6.6/sweetalert2.min.css')
+        // Include a polyfill for ES6 Promises (optional) for IE11 and Android browser
+        script(src='https://cdnjs.cloudflare.com/ajax/libs/core-js/2.4.1/core.js')
     body
         .jumbotron#region_header
             h1 #{process.env.APPNAME}
@@ -26,13 +31,13 @@ html
                     .form-group
                         label.control-label.col-sm-2(for='auth_host') Email Host:
                         .col-sm-10
-                            input#auth_host.form-control(type='text', placeholder='Enter the hostname of the SMTP server to use.')
+                            input#auth_host.form-control(type='text', placeholder='Enter the hostname of the SMTP server to use.', value='mailauth.comp.nus.edu.sg').
                     .form-group
                         label.control-label.col-sm-2(for='auth_port') Port:
                         .col-sm-10
-                            input#auth_port.form-control(type='text', placeholder='Enter the port used by the SMTP server specified above.')
+                            input#auth_port.form-control(type='text', placeholder='Enter the port used by the SMTP server specified above.', value=25)
                     .form-group
-                        label.control-label.col-sm-2(for='auth_secure') Secure
+                        label.control-label.col-sm-2(for='auth_secure') Secure:
                         .col-sm-10
                             input#auth_secure(type='checkbox' value='')
                     .form-group
@@ -46,17 +51,37 @@ html
             #tab_send
                 .form.form-horizontal
                     .form-group
-                        label.control-label.col-sm-2(for='send_from') Source Address:
+                        label.control-label.col-sm-2(for='send_from_name') Sender name:
                         .col-sm-10
-                            input#send_from.form-control(type='email', placeholder='Enter the email address to blast from.')
+                            input#send_from_name.form-control(type='text', value="NUS Students' Computing Club Management Committee")
                     .form-group
-                        label.control-label.col-sm-2(for='send_to') Destination Address:
+                        label.control-label.col-sm-2(for='send_from_email') Sender email address:
                         .col-sm-10
-                            input#send_to.form-control(type='email', placeholder='Enter the email address to blast to.')
+                            input#send_from_email.form-control(type='email', placeholder='Enter the email address to blast from.')
                     .form-group
-                        label.control-label.col-sm-2(for='send_subject') Subject:
+                        label.control-label.col-sm-2(for='send_to_name') Recipient name:
                         .col-sm-10
-                            input#send_subject.form-control(type='email', placeholder='Enter the email subject.')
+                            input#send_to_name.form-control(type='text', value="NUS Students' Computing Club Members")
+                    .form-group
+                        label.control-label.col-sm-2(for='send_to_email') Recipient email address:
+                        .col-sm-10
+                            input#send_to_email.form-control(type='email', placeholder='Enter the email address to blast to.', value='undergrad-l@comp.nus.edu.sg')
+                    .form-group
+                        label.control-label.col-sm-2(for='send_bcc') BCC:
+                        .col-sm-10
+                            input#send_bcc.form-control(type='email', value='marketing@nuscomputing.com')
+                    .form-group
+                        label.control-label.col-sm-2(for='send_replyTo_name') Reply-to recipient name:
+                        .col-sm-10
+                            input#send_replyTo_name.form-control(type='text', value='General Secretariat')
+                    .form-group
+                        label.control-label.col-sm-2(for='send_replyTo_email') Reply-to email address:
+                        .col-sm-10
+                            input#send_replyTo_email.form-control(type='email', value='secretariat@nuscomputing.com')
+                    .form-group
+                        label.control-label.col-sm-2(for='send_subject') Email subject:
+                        .col-sm-10
+                            input#send_subject.form-control(type='email', placeholder='Enter the email subject.', value='[Comp Club] INSERT_SUBJECT_HERE')
                     .form-group
                         .col-sm-2
                         .col-sm-10
