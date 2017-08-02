@@ -1,4 +1,5 @@
 const nodemailer = require('nodemailer');
+const scp2client = require('scp2');
 const template = require(`${process.env.SRC}/template`);
 
 
@@ -7,8 +8,6 @@ $('document').ready(function() {
     loadAllTabs();
 });
 
-
-const TABS = new Set(['briefing', 'content', 'authentication', 'send']);
 
 let editor = null;
 let editorHtml = null;
@@ -40,14 +39,12 @@ function showTab(tabToShow) {
 
 
 function loadAllTabs() {
-    loadBriefingTab();
     loadContentTab();
+    loadImageTab();
     loadAuthenticationTab();
     loadSendTab();
 }
 
-function loadBriefingTab() {
-}
 function loadContentTab() {
     // one for the EDM parameters in JSON, one for the generated EDM HTML
     editor = createEditor('editor_blast', 'monokai', 'json');
@@ -72,6 +69,29 @@ function loadContentTab() {
         }
     });
 
+}
+function loadImageTab() {
+    $('#upload_image').on('click', function() {
+        const server = $('#img_server').val();
+        const sourcePath = $('#img_path_src').val();
+        const destPath = $('#img_path_dest').val();
+        const username = $('#img_user').val();
+        const password = $('#img_password').val();
+
+        scp2client.scp(sourcePath, {
+            host: server,
+            username: username,
+            password: password,
+            path: destPath
+        }, function(err) {
+            if (err) {
+                console.log(`An error occurred while sending ${sourcePath} to ${server}:${destPath}.`);
+                console.log(err);
+            } else {
+                console.log(`The file ${sourcePath} has been uploaded successfully.`);
+            }
+        });
+    });
 }
 function loadAuthenticationTab() {
 }

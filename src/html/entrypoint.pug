@@ -16,16 +16,39 @@ html
         nav.navbar.navbar-inverse#region_navbar
             .container-fluid
                 ul.nav.navbar-nav
-                    li#nav_briefing #[a(href='#') Briefing]
-                    li#nav_content #[a(href='#') Content]
+                    li#nav_content #[a(href='#') Email Content]
+                    li#nav_image #[a(href='#') Image Upload]
                     li#nav_authentication #[a(href='#') Authentication]
                     li#nav_send #[a(href='#') Send]
         .container-fluid#region_main
-            #tab_briefing
             #tab_content
                 #editor_blast.editor
                     include edm_defaults.json
                 #editor_blast_html.editor
+            #tab_image
+                form.form-horizontal
+                    .form-group
+                        label.control-label.col-sm-2(for='img_server') Server:
+                        .col-sm-10
+                            input#img_server.form-control(type='text', placeholder='Enter the hostname of the server to upload the image into.')
+                    .form-group
+                        label.control-label.col-sm-2(for='img_path_src') Source Path:
+                        .col-sm-10
+                            input#img_path_src.form-control(type='text', placeholder='Enter the (local) path to the image that is to be uploaded, including the filename itself.')
+                    .form-group
+                        label.control-label.col-sm-2(for='img_path_dest') Destination Path:
+                        .col-sm-10
+                            input#img_path_dest.form-control(type='text', placeholder='Enter the (remote) path to the directory on the server where the image is to be uploaded, including the filename itself.')
+                    .form-group
+                        label.control-label.col-sm-2(for='img_user') Credentials:
+                        .col-sm-5
+                            input#img_user.form-control(type='text', placeholder='Username')
+                        .col-sm-5
+                            input#img_password.form-control(type='password', placeholder='Password')
+                    .form-group
+                        .col-sm-2
+                        .col-sm-10
+                            button#upload_image.btn.btn-danger(type='button' value='') Upload
             #tab_authentication
                 form.form-horizontal
                     .form-group
