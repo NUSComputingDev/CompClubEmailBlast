@@ -30,21 +30,21 @@ html
                     .form-group
                         label.control-label.col-sm-2(for='img_server') Server:
                         .col-sm-10
-                            input#img_server.form-control(type='text', placeholder='Enter the hostname of the server to upload the image into.', value='#{config.upload_account.upload_server}')
+                            input#img_server.form-control(type='text', placeholder='Enter the hostname of the server to upload the image into.', value=`${config.upload_account.upload_server}`)
                     .form-group
                         label.control-label.col-sm-2(for='img_path_src') Source Path:
                         .col-sm-10
-                            input#img_path_src.form-control(type='text', placeholder='Enter the (local) path to the image that is to be uploaded, including the filename itself.', value='#{config.upload_account.upload_source}')
+                            input#img_path_src.form-control(type='text', placeholder='Enter the (local) path to the image that is to be uploaded, including the filename itself.', value=`${config.upload_account.upload_source}`)
                     .form-group
                         label.control-label.col-sm-2(for='img_path_dest') Destination Path:
                         .col-sm-10
-                            input#img_path_dest.form-control(type='text', placeholder='Enter the (remote) path to the directory on the server where the image is to be uploaded, including the filename itself.', value='#{config.upload_account.upload_destination}')
+                            input#img_path_dest.form-control(type='text', placeholder='Enter the (remote) path to the directory on the server where the image is to be uploaded, including the filename itself.', value=`${config.upload_account.upload_destination}`)
                     .form-group
                         label.control-label.col-sm-2(for='img_user') Credentials:
                         .col-sm-5
-                            input#img_user.form-control(type='text', placeholder='Username', value='#{config.upload_account.username}')
+                            input#img_user.form-control(type='text', placeholder='Username', value=`${config.upload_account.username}`)
                         .col-sm-5
-                            input#img_password.form-control(type='password', placeholder='Password', value='#{config.upload_account.password}')
+                            input#img_password.form-control(type='password', placeholder='Password', value=`${config.upload_account.password}`)
                     .form-group
                         .col-sm-2
                         .col-sm-10
@@ -54,11 +54,11 @@ html
                     .form-group
                         label.control-label.col-sm-2(for='auth_host') Email Host:
                         .col-sm-10
-                            input#auth_host.form-control(type='text', placeholder='Enter the hostname of the SMTP server to use.', value='#{config.email_account.smtp_server}').
+                            input#auth_host.form-control(type='text', placeholder='Enter the hostname of the SMTP server to use.', value=`${config.email_account.smtp_server}`).
                     .form-group
                         label.control-label.col-sm-2(for='auth_port') Port:
                         .col-sm-10
-                            input#auth_port.form-control(type='text', placeholder='Enter the port used by the SMTP server specified above.', value='#{config.email_account.port}')
+                            input#auth_port.form-control(type='text', placeholder='Enter the port used by the SMTP server specified above.', value=`${config.email_account.port}`)
                     .form-group
                         label.control-label.col-sm-2(for='auth_secure') Secure:
                         .col-sm-10
@@ -66,45 +66,45 @@ html
                     .form-group
                         label.control-label.col-sm-2(for='auth_username') Username:
                         .col-sm-10
-                            input#auth_username.form-control(type='text', placeholder='Enter your username for the SMTP server specified above.', value='#{config.email_account.username}')
+                            input#auth_username.form-control(type='text', placeholder='Enter your username for the SMTP server specified above.', value=`${config.email_account.username}`)
                     .form-group
                         label.control-label.col-sm-2(for='auth_password') Password:
                         .col-sm-10
-                            input#auth_password.form-control(type='password', placeholder='Enter the password corresponding to your username above.', value='#{config.email_account.password}')
+                            input#auth_password.form-control(type='password', placeholder='Enter the password corresponding to your username above.', value=`${config.email_account.password}`)
             #tab_send
                 form.form-horizontal
                     .form-group
                         label.control-label.col-sm-2(for='send_from_name') Sender name:
                         .col-sm-10
-                            input#send_from_name.form-control(type='text', value='#{config.email_header.sender_name}')
+                            input#send_from_name.form-control(type='text', value=`${config.email_header.sender_name}`)
                     .form-group
                         label.control-label.col-sm-2(for='send_from_email') Sender email address:
                         .col-sm-10
-                            input#send_from_email.form-control(type='email', placeholder='Enter the email address to blast from.', value='#{config.email_header.sender_email}')
+                            input#send_from_email.form-control(type='email', placeholder='Enter the email address to blast from.', value=`${config.email_header.sender_email}`)
                     .form-group
                         label.control-label.col-sm-2(for='send_to_name') Recipient name:
                         .col-sm-10
-                            input#send_to_name.form-control(type='text', value='#{config.email_header.recipient_name}')
+                            input#send_to_name.form-control(type='text', value=`${config.email_header.recipient_name}`)
                     .form-group
                         label.control-label.col-sm-2(for='send_to_email') Recipient email address:
                         .col-sm-10
-                            input#send_to_email.form-control(type='email', placeholder='Enter the email address to blast to.', value='#{config.email_header.sender_email}')
+                            input#send_to_email.form-control(type='email', placeholder='Enter the email address to blast to.', value=`${config.email_header.sender_email}`)
                     .form-group
                         label.control-label.col-sm-2(for='send_bcc') BCC:
                         .col-sm-10
-                            input#send_bcc.form-control(type='email', value='#{config.email_header.bcc}')
+                            input#send_bcc.form-control(type='email', value=`${config.email_header.bcc}`)
                     .form-group
                         label.control-label.col-sm-2(for='send_replyTo_name') Reply-to recipient name:
                         .col-sm-10
-                            input#send_replyTo_name.form-control(type='text', value='#{config.email_header.reply_to_name}')
+                            input#send_replyTo_name.form-control(type='text', value=`${config.email_header.reply_to_name}`)
                     .form-group
                         label.control-label.col-sm-2(for='send_replyTo_email') Reply-to email address:
                         .col-sm-10
-                            input#send_replyTo_email.form-control(type='email', value='#{config.email_header.reply_to_email}')
+                            input#send_replyTo_email.form-control(type='email', value=`${config.email_header.reply_to_email}`)
                     .form-group
                         label.control-label.col-sm-2(for='send_subject') Email subject:
                         .col-sm-10
-                            input#send_subject.form-control(type='email', placeholder='Enter the email subject.', value='#{config.email_header.subject}')
+                            input#send_subject.form-control(type='email', placeholder='Enter the email subject.', value=`${config.email_header.subject}`)
                     .form-group
                         .col-sm-2
                         .col-sm-10
