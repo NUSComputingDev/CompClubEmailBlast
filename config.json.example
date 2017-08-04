@@ -16,6 +16,7 @@
     "subject": "[Comp Club] exampleSubject"
   },
   "upload_account": {
+    "upload_domain": "https://example.com",
     "upload_server": "example.com",
     "upload_source": "./src/img/exampleFolder/exampleFileNameWithExtension",
     "upload_destination": "./Websites/exampleFolder/exampleFileNameWithExtension",

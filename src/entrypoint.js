@@ -1,6 +1,7 @@
 const nodemailer = require('nodemailer');
 const scp2client = require('scp2');
 const template = require(`${process.env.SRC}/template`);
+const config = require('./../config');
 
 
 $('document').ready(function() {
@@ -72,23 +73,58 @@ function loadContentTab() {
 }
 function loadImageTab() {
     $('#upload_image').on('click', function() {
-        const server = $('#img_server').val();
-        const sourcePath = $('#img_path_src').val();
-        const destPath = $('#img_path_dest').val();
-        const username = $('#img_user').val();
-        const password = $('#img_password').val();
+        swal({
+            title: 'Are you sure?',
+            text: "Any existing file of the same name and path will be overwritten!",
+            type: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Confirm upload'
+        }).then(function() {
+            const server = $('#img_server').val();
+            const sourcePath = $('#img_path_src').val();
+            const destPath = $('#img_path_dest').val();
+            const username = $('#img_user').val();
+            const password = $('#img_password').val();
 
-        scp2client.scp(sourcePath, {
-            host: server,
-            username: username,
-            password: password,
-            path: destPath
-        }, function(err) {
-            if (err) {
-                console.log(`An error occurred while sending ${sourcePath} to ${server}:${destPath}.`);
-                console.log(err);
-            } else {
-                console.log(`The file ${sourcePath} has been uploaded successfully.`);
+            scp2client.scp(sourcePath, {
+                host: server,
+                username: username,
+                password: password,
+                path: destPath
+            }, function(err) {
+                if (err) {
+                    console.log(`An error occurred while sending ${sourcePath} to ${server}:${destPath}.`);
+                    console.log(err);
+                    swal({
+                        title: 'Error!',
+                        text: "Your file might not have been uploaded. Press Ctrl+Shift+I to view the log.",
+                        type: 'error',
+                        confirmButtonText: 'OK'
+                    });
+                } else {
+                    console.log(`The file ${sourcePath} has been uploaded successfully.`);
+                    // Warning: Root folder name of this project in the upload server must be the same as
+                    //          the value of config.upload_account.upload_domain
+                    let destPathDelim = config.upload_account.upload_domain;
+                    let urlPathIndex = 1;
+                    swal({
+                        title: 'Success!',
+                        imageUrl: `https://${config.upload_account.upload_domain}${destPath.split(destPathDelim)[urlPathIndex]}`,
+                        text: "Your file has been uploaded. Press Ctrl+Shift+I to view the log.",
+                        type: 'success',
+                        confirmButtonText: 'OK'
+                    });
+                }
+            });
+        }, function(dismiss) {
+            if (dismiss === 'cancel') {
+                swal({
+                    title: 'Cancelled',
+                    text: "You will be back in edit mode.",
+                    type: 'error'
+                });
             }
         });
     });
@@ -105,7 +141,7 @@ function loadSendTab() {
             confirmButtonColor: '#3085d6',
             cancelButtonColor: '#d33',
             confirmButtonText: 'Confirm send'
-        }).then(function () {
+        }).then(function() {
             const from = {
                 name: $('#send_from_name').val(),
                 address: $('#send_from_email').val()
@@ -132,7 +168,7 @@ function loadSendTab() {
             const emailObj = createEmailObject(from, to, bcc, replyTo, subject, content);
 
             sendMail(credentialObj, emailObj);
-        }, function (dismiss) {
+        }, function(dismiss) {
             if (dismiss === 'cancel') {
                 swal({
                     title: 'Cancelled',
