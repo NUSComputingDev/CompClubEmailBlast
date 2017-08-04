@@ -1,5 +1,6 @@
 {
-    "logo"   : "https://newsletters.nuscomputing.com/compclub-logo.png",
+    "logo"   : "https://newsletters.nuscomputing.com/logo.png",
+    "host"   : "https://newsletters.nuscomputing.com",
     "uri"    : "/2017/August/01/index.html",
     "date"   : "01 August 2017",
     "header" : "Computing Club Newsletter",
@@ -16,7 +17,7 @@
         },
         {
             "title" : "Third Blast Item",
-            "image" : "httsp://newsletters.nuscomputing.com/2017/August/01/contents/img3.png",
+            "image" : "https://newsletters.nuscomputing.com/2017/August/01/contents/img3.png",
             "text"  : ""
         }
     ]
