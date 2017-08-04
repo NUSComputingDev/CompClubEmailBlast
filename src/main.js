@@ -9,10 +9,11 @@ const {app, BrowserWindow} = require('electron');
 
 const rendererFiles = ['debug.entrypoint',
                        'entrypoint'];
+const config = require('./../config');
 
 function generateRendererHtml() {
     for (let file of rendererFiles) {
-        template.generateHtml(file, {});
+        template.generateHtml(file, {config: config});
     }
 }
 
