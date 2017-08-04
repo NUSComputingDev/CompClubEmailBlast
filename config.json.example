@@ -17,8 +17,8 @@
   },
   "upload_account": {
     "upload_server": "example.com",
-    "upload_source": "./src/img/exampleFileNameWithExtension",
-    "upload_destination": "./Documents/exampleFileNameWithExtension",
+    "upload_source": "./src/img/exampleFolder/exampleFileNameWithExtension",
+    "upload_destination": "./Websites/exampleFolder/exampleFileNameWithExtension",
     "username": "exampleUser2",
     "password": "examplePassWord5678"
   }
