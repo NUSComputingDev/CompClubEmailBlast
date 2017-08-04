@@ -1,21 +1,22 @@
 {
-    "logo"   : "http://newsletters.nuscomputing.com/compclub-logo.png",
-    "date"   : "01 July 1998",
+    "logo"   : "https://newsletters.nuscomputing.com/compclub-logo.png",
+    "uri"    : "/2017/August/01/index.html",
+    "date"   : "01 August 2017",
     "header" : "Computing Club Newsletter",
     "items" : [
         {
             "title" : "First Blast Item",
-            "image" : "https://www.website1.com/path/to/image1.png",
+            "image" : "https://newsletters.nuscomputing.com/2017/August/01/contents/img1.png",
             "text"  : ""
         },
         {
             "title" : "Second Blast Item",
-            "image" : "https://www.website2.com/path/to/image2.png",
+            "image" : "https://newsletters.nuscomputing.com/2017/August/01/contents/img2.png",
             "text"  : ""
         },
         {
             "title" : "Third Blast Item",
-            "image" : "https://www.website3.com/path/to/image3.png",
+            "image" : "httsp://newsletters.nuscomputing.com/2017/August/01/contents/img3.png",
             "text"  : ""
         }
     ]
