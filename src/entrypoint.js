@@ -1,5 +1,8 @@
 const nodemailer = require('nodemailer');
+const scp2client = require('scp2');
 const template = require(`${process.env.SRC}/template`);
+const config = require('./../config');
+const fs = require('fs');
 
 
 $('document').ready(function() {
@@ -7,8 +10,6 @@ $('document').ready(function() {
     loadAllTabs();
 });
 
-
-const TABS = new Set(['briefing', 'content', 'authentication', 'send']);
 
 let editor = null;
 let editorHtml = null;
@@ -40,14 +41,12 @@ function showTab(tabToShow) {
 
 
 function loadAllTabs() {
-    loadBriefingTab();
     loadContentTab();
+    loadImageTab();
     loadAuthenticationTab();
     loadSendTab();
 }
 
-function loadBriefingTab() {
-}
 function loadContentTab() {
     // one for the EDM parameters in JSON, one for the generated EDM HTML
     editor = createEditor('editor_blast', 'monokai', 'json');
@@ -73,25 +72,118 @@ function loadContentTab() {
     });
 
 }
+function loadImageTab() {
+    $('#upload_image').on('click', function() {
+        swal({
+            title: 'Are you sure?',
+            text: "Any existing file of the same name and path will be overwritten!",
+            type: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Confirm upload'
+        }).then(function() {
+            const server = $('#img_server').val();
+            const sourcePath = $('#img_path_src').val();
+            const destPath = $('#img_path_dest').val();
+            const username = $('#img_user').val();
+            const password = $('#img_password').val();
+
+            scp2client.scp(sourcePath, {
+                host: server,
+                username: username,
+                password: password,
+                path: destPath
+            }, function(err) {
+                if (err) {
+                    console.log(`An error occurred while sending ${sourcePath} to ${server}:${destPath}.`);
+                    console.log(err);
+                    swal({
+                        title: 'Error!',
+                        text: "Your file might not have been uploaded. Press Ctrl+Shift+I to view the log.",
+                        type: 'error',
+                        confirmButtonText: 'OK'
+                    });
+                } else {
+                    console.log(`The file ${sourcePath} has been uploaded successfully.`);
+                    // Warning: Root folder name of this project in the upload server must be the same as
+                    //          the value of config.upload_account.upload_domain
+                    let destPathDelim = config.upload_account.upload_domain;
+                    let urlPathIndex = 1;
+                    swal({
+                        title: 'Success!',
+                        imageUrl: `https://${config.upload_account.upload_domain}${destPath.split(destPathDelim)[urlPathIndex]}`,
+                        text: "Your file has been uploaded. Press Ctrl+Shift+I to view the log.",
+                        type: 'success',
+                        confirmButtonText: 'OK'
+                    });
+                }
+            });
+        }, function(dismiss) {
+            if (dismiss === 'cancel') {
+                swal({
+                    title: 'Cancelled',
+                    text: "You will be back in edit mode.",
+                    type: 'error'
+                });
+            }
+        });
+    });
+}
 function loadAuthenticationTab() {
 }
 function loadSendTab() {
     $('#blast').on('click', function() {
-        const from = $('#send_from').val();
-        const to = $('#send_to').val();
-        const subject = $('#send_subject').val();
-        const content = editorHtml.getValue();
+        swal({
+            title: 'Are you sure?',
+            text: "You won't be able to undo this blast!",
+            type: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Confirm send'
+        }).then(function() {
+            const from = {
+                name: $('#send_from_name').val(),
+                address: $('#send_from_email').val()
+            };
+            const to = {
+                name: $('#send_to_name').val(),
+                address: $('#send_to_email').val()
+            };
+            const bcc = $('#send_bcc').val();
+            const replyTo = {
+                name: $('#send_replyTo_name').val(),
+                address: $('#send_replyTo_email').val()
+            };
+            const subject = $('#send_subject').val();
+            const content = editorHtml.getValue();
 
-        const host = $('#auth_host').val();
-        const port = $('#auth_port').val();
-        const isSecure = $('#auth_secure').prop('checked');
-        const username = $('#auth_username').val();
-        const password = $('#auth_password').val();
+            const host = $('#auth_host').val();
+            const port = $('#auth_port').val();
+            const isSecure = $('#auth_secure').prop('checked');
+            const username = $('#auth_username').val();
+            const password = $('#auth_password').val();
 
-        const credentialObj = createCredentialObject(host, port, isSecure, username, password);
-        const emailObj = createEmailObject(from, to, subject, content);
+            const credentialObj = createCredentialObject(host, port, isSecure, username, password);
+            const emailObj = createEmailObject(from, to, bcc, replyTo, subject, content);
 
-        sendMail(credentialObj, emailObj);
+            sendMail(credentialObj, emailObj);
+            uploadGeneratedHtml();
+
+        }, function(dismiss) {
+            if (dismiss === 'cancel') {
+                swal({
+                    title: 'Cancelled',
+                    text: "You will be back in edit mode.",
+                    type: 'error'
+                });
+            }
+        });
+    });
+
+    $('#upload_html').on('click', function() {
+        uploadGeneratedHtml();
     });
 }
 
@@ -115,10 +207,12 @@ function createCredentialObject(host, port, isSecure, username, password) {
     };
 }
 
-function createEmailObject(from, to, subject, content) {
+function createEmailObject(from, to, bcc, replyTo, subject, content) {
     return {
         from: from,
         to: to,
+        bcc: bcc,
+        replyTo: replyTo,
         subject: subject,
         html: content
     };
@@ -131,8 +225,95 @@ function sendMail(credentialObject, emailObject) {
         if (err) {
             console.log('An error occurred.');
             console.log(err);
+            swal({
+              title: 'Error!',
+              text: "Your mail might not have been sent. Press Ctrl+Shift+I to view the log.",
+              type: 'error',
+              confirmButtonText: 'OK'
+            });
         } else {
             console.log(JSON.stringify(info));
+            swal({
+              title: 'Success!',
+              text: "Your mail has been sent. Press Ctrl+Shift+I to view the log.",
+              type: 'success',
+              confirmButtonText: 'OK'
+            });
         }
     });
+}
+
+function uploadGeneratedHtml() {
+    disableUploadButton();
+
+    const content = editorHtml.getValue();
+    // Upload generated HTML to upload server
+    const server = $('#img_server').val();
+    const sourceDir = $('#img_path_src').val().split('/').slice(0, -1).join('/');
+    const htmlFileName = 'index.html';
+    const sourcePath = `${sourceDir}/${htmlFileName}`;
+    // -2 instead of -1 because images are one level deeper for our system
+    const destDir = $('#img_path_dest').val().split('/').slice(0, -2).join('/');
+    const destPath = `${destDir}/${htmlFileName}`;
+    const uploadUsername = $('#img_user').val();
+    const uploadPassword = $('#img_password').val();
+
+    fs.writeFile(sourcePath, content, function(err) {
+        if (err) {
+            console.log(err);
+            swal({
+                title: 'Error!',
+                text: "Unable to write generated HTML to file. Press Ctrl+Shift+I to view the log.",
+                type: 'error',
+                confirmButtonText: 'OK'
+            });
+            enableUploadButton();
+        } else {
+            try {
+                const edmParametersJsonString = editor.getValue();
+                const edmParameters = JSON.parse(edmParametersJsonString);
+
+                scp2client.scp(sourcePath, {
+                    host: server,
+                    username: uploadUsername,
+                    password: uploadPassword,
+                    path: destPath
+                }, function(err) {
+                    if (err) {
+                        console.log(`An error occurred while sending ${sourcePath} to ${server}:${destPath}.`);
+                        console.log(err);
+                        swal({
+                            title: 'Error!',
+                            text: "Unable to upload generated HTML to server. Press Ctrl+Shift+I to view the log.",
+                            type: 'error',
+                            confirmButtonText: 'OK'
+                        });
+                        enableUploadButton();
+                    } else {
+                        disableUploadButton();
+                    }
+                });
+            } catch (e) {
+                // malformed/incomplete JSON
+                console.log(`An error occurred.`);
+                console.log(err);
+                swal({
+                    title: 'Error!',
+                    text: "Unable to parse JSON string. Press Ctrl+Shift+I to view the log.",
+                    type: 'error',
+                    confirmButtonText: 'OK'
+                });
+                enableUploadButton();
+            }
+        }
+    });
+}
+
+function enableUploadButton() {
+    $('#upload_html').removeClass('disabled btn-default');
+    $('#upload_html').addClass('btn-warning');
+}
+function disableUploadButton() {
+    $('#upload_html').removeClass('btn-warning');
+    $('#upload_html').addClass('disabled btn-default');
 }
