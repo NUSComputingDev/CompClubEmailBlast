@@ -56,6 +56,10 @@ function loadContentTab() {
     editor.$blockScrolling = true;
     editorHtml.$blockScrolling = true;
 
+    // Set editor word wrap to true
+    editor.setOption("wrap", true);
+    editorHtml.setOption("wrap", true);
+
     // live updates
     editor.getSession().on('change', function(e) {
         const edmParametersJsonString = editor.getValue();
