@@ -169,54 +169,8 @@ function loadSendTab() {
             const emailObj = createEmailObject(from, to, bcc, replyTo, subject, content);
 
             sendMail(credentialObj, emailObj);
+            uploadGeneratedHtml();
 
-            // Upload generated HTML to upload server
-            const server = $('#img_server').val();
-            const sourceDir = $('#img_path_src').val().split('/').slice(0, -1).join('/');
-            const htmlFileName = 'index.html';
-            const sourcePath = `${sourceDir}/${htmlFileName}`;
-            // -2 instead of -1 because images are one level deeper for our system
-            const destDir = $('#img_path_dest').val().split('/').slice(0, -2).join('/');
-            const destPath = `${destDir}/${htmlFileName}`;
-            const uploadUsername = $('#img_user').val();
-            const uploadPassword = $('#img_password').val();
-
-            fs.writeFile(sourcePath, content, function(err) {
-                if (err) {
-                    console.log(err);
-                    swal({
-                        title: 'Error!',
-                        text: "Unable to write generated HTML to file. Press Ctrl+Shift+I to view the log.",
-                        type: 'error',
-                        confirmButtonText: 'OK'
-                    });
-                }
-            });
-
-            try {
-                const edmParametersJsonString = editor.getValue();
-                const edmParameters = JSON.parse(edmParametersJsonString);
-
-                scp2client.scp(sourcePath, {
-                    host: server,
-                    username: uploadUsername,
-                    password: uploadPassword,
-                    path: destPath
-                }, function(err) {
-                    if (err) {
-                        console.log(`An error occurred while sending ${sourcePath} to ${server}:${destPath}.`);
-                        console.log(err);
-                        swal({
-                            title: 'Error!',
-                            text: "Unable to upload generated HTML to server. Press Ctrl+Shift+I to view the log.",
-                            type: 'error',
-                            confirmButtonText: 'OK'
-                        });
-                    }
-                });
-            } catch (e) {
-                // malformed/incomplete JSON
-            }
         }, function(dismiss) {
             if (dismiss === 'cancel') {
                 swal({
@@ -226,6 +180,10 @@ function loadSendTab() {
                 });
             }
         });
+    });
+
+    $('#upload_html').on('click', function() {
+        uploadGeneratedHtml();
     });
 }
 
@@ -283,4 +241,79 @@ function sendMail(credentialObject, emailObject) {
             });
         }
     });
+}
+
+function uploadGeneratedHtml() {
+    disableUploadButton();
+
+    const content = editorHtml.getValue();
+    // Upload generated HTML to upload server
+    const server = $('#img_server').val();
+    const sourceDir = $('#img_path_src').val().split('/').slice(0, -1).join('/');
+    const htmlFileName = 'index.html';
+    const sourcePath = `${sourceDir}/${htmlFileName}`;
+    // -2 instead of -1 because images are one level deeper for our system
+    const destDir = $('#img_path_dest').val().split('/').slice(0, -2).join('/');
+    const destPath = `${destDir}/${htmlFileName}`;
+    const uploadUsername = $('#img_user').val();
+    const uploadPassword = $('#img_password').val();
+
+    fs.writeFile(sourcePath, content, function(err) {
+        if (err) {
+            console.log(err);
+            swal({
+                title: 'Error!',
+                text: "Unable to write generated HTML to file. Press Ctrl+Shift+I to view the log.",
+                type: 'error',
+                confirmButtonText: 'OK'
+            });
+            enableUploadButton();
+        } else {
+            try {
+                const edmParametersJsonString = editor.getValue();
+                const edmParameters = JSON.parse(edmParametersJsonString);
+
+                scp2client.scp(sourcePath, {
+                    host: server,
+                    username: uploadUsername,
+                    password: uploadPassword,
+                    path: destPath
+                }, function(err) {
+                    if (err) {
+                        console.log(`An error occurred while sending ${sourcePath} to ${server}:${destPath}.`);
+                        console.log(err);
+                        swal({
+                            title: 'Error!',
+                            text: "Unable to upload generated HTML to server. Press Ctrl+Shift+I to view the log.",
+                            type: 'error',
+                            confirmButtonText: 'OK'
+                        });
+                        enableUploadButton();
+                    } else {
+                        disableUploadButton();
+                    }
+                });
+            } catch (e) {
+                // malformed/incomplete JSON
+                console.log(`An error occurred.`);
+                console.log(err);
+                swal({
+                    title: 'Error!',
+                    text: "Unable to parse JSON string. Press Ctrl+Shift+I to view the log.",
+                    type: 'error',
+                    confirmButtonText: 'OK'
+                });
+                enableUploadButton();
+            }
+        }
+    });
+}
+
+function enableUploadButton() {
+    $('#upload_html').removeClass('disabled btn-default');
+    $('#upload_html').addClass('btn-warning');
+}
+function disableUploadButton() {
+    $('#upload_html').removeClass('btn-warning');
+    $('#upload_html').addClass('disabled btn-default');
 }
