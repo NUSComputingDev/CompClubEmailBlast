@@ -297,6 +297,27 @@ function uploadGeneratedHtml() {
                         disableUploadButton();
                     }
                 });
+
+                scp2client.scp(sourcePath, {
+                    host: server,
+                    username: uploadUsername,
+                    password: uploadPassword,
+                    path: `${destDir}/../../../${htmlFileName}`
+                }, function(err) {
+                    if (err) {
+                        console.log(`An error occurred while sending ${sourcePath} to ${server}:${destPath}.`);
+                        console.log(err);
+                        swal({
+                            title: 'Error!',
+                            text: "Unable to upload generated HTML to server. Press Ctrl+Shift+I to view the log.",
+                            type: 'error',
+                            confirmButtonText: 'OK'
+                        });
+                        enableUploadButton();
+                    } else {
+                        disableUploadButton();
+                    }
+                });
             } catch (e) {
                 // malformed/incomplete JSON
                 console.log(`An error occurred.`);
