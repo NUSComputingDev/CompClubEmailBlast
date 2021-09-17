@@ -35,7 +35,14 @@ let win = null;
 
 app.on('ready', () => {
     generateRendererHtml();
-    win = new BrowserWindow({width: 1280, height: 1024});
+    win = new BrowserWindow({
+      width: 1280, 
+      height: 1024,
+      webPreferences: {
+        nodeIntegration: true,
+        contextIsolation: false  
+      }
+    });
     win.maximize();
     win.loadURL(urlOfPageToDisplay);
     win.webContents.openDevTools();
