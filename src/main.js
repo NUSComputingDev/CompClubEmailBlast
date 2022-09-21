@@ -45,7 +45,7 @@ app.on('ready', () => {
     });
     win.maximize();
     win.loadURL(urlOfPageToDisplay);
-    win.webContents.openDevTools();
+    // win.webContents.openDevTools();
     win.on('closed', () => { win = null; });
 });
 app.on('window-all-closed', () => {
