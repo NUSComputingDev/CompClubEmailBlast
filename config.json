@@ -1,0 +1,26 @@
+{
+    "email_account": {
+      "smtp_server": "smtp.example.com",
+      "port": "25",
+      "username": "exampleUser1",
+      "password": "examplePassword1234"
+    },
+    "email_header": {
+      "recipient_email": "recipients@example.com",
+      "recipient_name": "Example Mailing List",
+      "bcc": "has_blind_carbon_copy@example.com",
+      "sender_email": "sender@example.com",
+      "sender_name": "Example Committee",
+      "reply_to_email": "will_reply@example.com",
+      "reply_to_name": "Correspondent from Example Committee",
+      "subject": "[Comp Club] exampleSubject"
+    },
+    "upload_account": {
+      "upload_domain": "https://example.com",
+      "upload_server": "example.com",
+      "upload_source": "./src/img/exampleFolder/exampleFileNameWithExtension",
+      "upload_destination": "./Websites/exampleFolder/exampleFileNameWithExtension",
+      "username": "exampleUser2",
+      "password": "examplePassWord5678"
+    }
+  }
